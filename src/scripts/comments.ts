@@ -22,7 +22,7 @@ interface Attachment {
 
 interface Comment {
   id: string;
-  source: "site" | "fediverse" | "webmention";
+  source: "site" | "fediverse" | "bluesky" | "webmention";
   parentId: string | null;
   author: Person;
   authorId: number | null;
@@ -317,12 +317,13 @@ function mountThread(card: HTMLElement, path: string): void {
     head.append(avatar(comment.author), authorName(comment.author, remote ? comment.author.url : null));
     if (comment.role === "author") head.append(el("span", "comment-badge", "Author"));
     const handle = comment.source === "webmention" ? hostOf(comment.url ?? null) : comment.author.handle;
-    if (remote && handle && handle !== comment.author.name) head.append(el("span", "comment-handle", handle));
+    if (remote && handle && handle.replace(/^@/, "") !== comment.author.name) head.append(el("span", "comment-handle", handle));
     const time = el("time", "comment-date", shortDate(comment.createdAt));
     time.dateTime = comment.createdAt;
     time.title = new Date(comment.createdAt).toLocaleString();
     head.append(time);
-    item.append(head, remote ? remoteBody(comment) : el("div", "comment-bubble", comment.body ?? ""));
+    const plain = comment.source === "site" || comment.source === "bluesky";
+    item.append(head, plain ? el("div", "comment-bubble", comment.body ?? "") : remoteBody(comment));
 
     const actions = el("div", "comment-actions");
     if (remote) {

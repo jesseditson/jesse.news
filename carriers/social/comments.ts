@@ -1,5 +1,6 @@
-import type { CarrierReply, CarrierReplyAttachment, CarrierWebmention } from "@archival/carrier";
-import { fediverseBoosts, fediverseLikes, localLikesQuery, reactions } from "./likes";
+import type { CarrierATProtoReply, CarrierReply, CarrierReplyAttachment, CarrierWebmention } from "@archival/carrier";
+import { blueskyCounts, blueskyLikes, blueskyPerson, blueskyReplies, blueskyReposts } from "./atproto";
+import { fediverseBoosts, fediverseLikes, listed, localLikesQuery, reactions } from "./likes";
 import { now } from "./db";
 import { person, type Person, replies } from "./fediverse";
 import { actingUser } from "./auth";
@@ -24,12 +25,12 @@ type CommentRow = {
 };
 
 interface Comment {
-  // A site comment's row id, a fediverse reply's ActivityPub id, or the page a webmention came from.
+  // A site comment's row id, a fediverse reply's ActivityPub id, a Bluesky reply's AT-URI, or the page a webmention came from.
   id: string;
-  source: "site" | "fediverse" | "webmention";
+  source: "site" | "fediverse" | "bluesky" | "webmention";
   parentId: string | null;
   author: Person;
-  // The account that wrote a site comment; null for fediverse replies and comments from before accounts.
+  // The account that wrote a site comment; null for remote replies and comments from before accounts.
   authorId: number | null;
   role: string;
   createdAt: string;
@@ -65,6 +66,19 @@ const fromReply = (reply: CarrierReply): Comment => ({
   summary: reply.summary,
   sensitive: reply.sensitive,
   attachments: reply.attachments,
+  url: reply.url,
+});
+
+// Plain text, so it goes in `body` like a site comment rather than `html`.
+const fromBluesky = (reply: CarrierATProtoReply): Comment => ({
+  id: reply.uri,
+  source: "bluesky",
+  parentId: reply.inReplyTo,
+  author: blueskyPerson(reply.account),
+  authorId: null,
+  role: "reader",
+  createdAt: reply.published,
+  body: reply.text,
   url: reply.url,
 });
 
@@ -104,7 +118,7 @@ export async function thread(context: Context): Promise<Response> {
   const path = context.params.get("path") ?? "";
   if (!postPaths(context).has(path)) return fail("unknown thread", 404);
 
-  const [[rows, [local]], fediverse, likes, boosts, elsewhere] = await Promise.all([
+  const [[rows, [local]], fediverse, bluesky, likes, blueskyLiked, boosts, reposts, elsewhere] = await Promise.all([
     context.db.transaction([
       // An account's current name and role, so a rename or a claimed author role reaches past comments.
       [
@@ -117,24 +131,31 @@ export async function thread(context: Context): Promise<Response> {
       localLikesQuery(path),
     ]),
     replies(context, path),
+    blueskyReplies(context, path),
     fediverseLikes(context, path),
+    blueskyLikes(context, path),
     fediverseBoosts(context, path),
+    blueskyReposts(context, path),
     mentions(context, path),
   ]);
   const site = nest((rows as CommentRow[]).map(fromRow));
   const remote = nest(fediverse.map(fromReply));
-  // A site that federates and sends webmentions delivers the same reply both ways.
-  const federated = new Set(fediverse.flatMap((reply) => [reply.id, reply.url]));
+  const blueskyThread = nest(bluesky.map(fromBluesky));
+  // The same reply can also arrive as a webmention, from the replying site itself or a bridge like Bridgy.
+  const federated = new Set([
+    ...fediverse.flatMap((reply) => [reply.id, reply.url]),
+    ...bluesky.flatMap((reply) => [reply.uri, reply.url]),
+  ]);
   const linked = elsewhere
     .filter((mention) => mention.kind === "reply" && !federated.has(mention.url) && !federated.has(mention.source))
     .map(fromMention);
   const people = (kind: CarrierWebmention["kind"]) =>
-    elsewhere.filter((mention) => mention.kind === kind).map(mentionAuthor);
+    listed(elsewhere.filter((mention) => mention.kind === kind).map(mentionAuthor));
   return json({
-    comments: [...site, ...remote, ...linked].sort(byDate),
-    count: rows.length + fediverse.length + linked.length,
-    likes: reactions(likes, Number(local?.n ?? 0), people("like")),
-    boosts: reactions(boosts, 0, people("repost")),
+    comments: [...site, ...remote, ...blueskyThread, ...linked].sort(byDate),
+    count: rows.length + fediverse.length + bluesky.length + linked.length,
+    likes: reactions(Number(local?.n ?? 0), likes, blueskyLiked, people("like")),
+    boosts: reactions(0, boosts, reposts, people("repost")),
     mentions: elsewhere.filter(isListed).map(toMention),
   });
 }
@@ -148,7 +169,7 @@ export async function counts(context: Context): Promise<Response> {
   if (!paths.length) return json({ counts: result });
 
   const marks = paths.map(() => "?").join(",");
-  const [[comments, likes], fediverse, elsewhere] = await Promise.all([
+  const [[comments, likes], fediverse, bluesky, elsewhere] = await Promise.all([
     context.db.transaction([
       [`select slug, count(*) as n from comments where slug in (${marks}) group by slug`, ...paths],
       [`select slug, likes as n from like_counts where slug in (${marks})`, ...paths],
@@ -157,14 +178,15 @@ export async function counts(context: Context): Promise<Response> {
       console.error("fediverse counts", error);
       return paths.map(() => ({ likes: 0, boosts: 0, replies: 0 }));
     }),
+    blueskyCounts(context, paths),
     mentionCounts(context, paths),
   ]);
   paths.forEach(
     (path, i) =>
       (result[path] = {
-        comments: fediverse[i].replies + elsewhere[i].replies,
-        likes: fediverse[i].likes + elsewhere[i].likes,
-        boosts: fediverse[i].boosts + elsewhere[i].reposts,
+        comments: fediverse[i].replies + bluesky[i].replies + elsewhere[i].replies,
+        likes: fediverse[i].likes + bluesky[i].likes + elsewhere[i].likes,
+        boosts: fediverse[i].boosts + bluesky[i].reposts + elsewhere[i].reposts,
       }),
   );
   for (const row of comments) result[String(row.slug)].comments += Number(row.n);
@@ -180,7 +202,7 @@ export async function create(context: Context): Promise<Response> {
 
   if (!postPaths(context).has(path)) return fail("That post doesn't exist.", 404);
   if (!content || content.length > MAX_BODY) return fail("Comments run 1 to 2000 characters.");
-  if (parentId !== null && !Number.isInteger(parentId)) return fail("Replies on the fediverse are answered there.");
+  if (parentId !== null && !Number.isInteger(parentId)) return fail("Replies from Mastodon and Bluesky are answered there.");
   const user = await actingUser(context, "Sign in to comment.");
   if (user instanceof Response) return user;
 
