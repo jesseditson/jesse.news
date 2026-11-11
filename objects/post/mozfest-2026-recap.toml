@@ -1,0 +1,64 @@
+created_at = 2026-11-01T00:00:00.0
+content = """
+# Mozfest 2026 Recap
+
+<br />
+
+Mozfest was an incredible experience. I arrived and headed straight to a WeWork where I ran into some really amazing folks, and had some great conversations - they were just local technologists, and didn’t know about the conference - but it was clear that the vibe in Europe around AI, Economics, and Technology, were going to be much better aligned with my personal leanings.
+
+![image.png](https://uploads.archival.dev/343d39d42160d9a423b688fb4bdaa33d0356b513d5adc776ce67e84322e5a1d7/67ce6af221ee2aeb2645ad7d33f5e9d70dbcd10c3345c9a16f0f9bf4a9836b72/image.png)
+
+To keep adjust to the 9 hour time difference, I visited my favorite restaurant in Barcelona, Quimet y Quimet. This place serves Montadillos and Vermouth, and is very possibly my favorite restaurant on the planet. I crushed some tinned fish then headed to a cocktail bar I had been hearing about.
+
+![image.png](https://uploads.archival.dev/343d39d42160d9a423b688fb4bdaa33d0356b513d5adc776ce67e84322e5a1d7/af4dd40b23e7f12d8be4bc8014c64b62127678d0988f066f1fbbfcd3500d6983/image.png)
+
+Dr. Stravinsky was less exciting than I had hoped - lots of batching, and while I did enjoy the arrangement of the menu (they did a lot of ZP stuff, had similar glass-based arrangement as us), the bartenders weren't particularly knowledgeable and the drinks were missing a layer of complexity - I still had 5, talked philosophy with the patrons, then headed to bed to get ready for the conference the next day.
+
+![image.png](https://uploads.archival.dev/343d39d42160d9a423b688fb4bdaa33d0356b513d5adc776ce67e84322e5a1d7/56e22bcdcff32f55bd114e60935e5043a38ca2978917742accb12d6048af9526/image.png)
+
+Day 1 of the fest went by quickly - it was at a beautiful location that used to be a thread factory in the northeastern part of the city. There were about 3000 attendees, and tons of rooms. I went to a few talks, mostly focusing on the tech and dev stuff, but really enjoyed a talk about effective techniques for having conversations with people who have oppositional opinions, and it was really interesting to see the general convergence on a desire for an "Open Web", and what that really means with lots of AI.
+
+![image.png](https://uploads.archival.dev/343d39d42160d9a423b688fb4bdaa33d0356b513d5adc776ce67e84322e5a1d7/a3448d7038cee277eaa1538c25e7b353f2e870e0c06ce8676a7ab2d64167f7c7/image.png)
+
+This was the first year Mozilla had a developer track, and I was honored to be on the short list of presenters for it. My talk went very well, and I was happy both with attendance and the engagement afterwards. The audience was equal parts technical and curious, and I probably had the most technical talk of the week, so it was cool to hear from folks that they could get some value out of it and that it resonated.
+
+After the event, Mozilla was kind enough to take the dev speakers out for an amazing dinner at Restaurant Bornès, where I had one of the better cocktails of the trip.
+
+![image.png](https://uploads.archival.dev/343d39d42160d9a423b688fb4bdaa33d0356b513d5adc776ce67e84322e5a1d7/71a5e2473924809d0de06435ea1125c8828ad6da694f3eae8db15e9f5b20dbc7/image.png)
+
+In addition to the exceptional menu, the conversation and company at the dinner was fantastic. the Mozilla community draws a crowd of people who are rare in technology in that they're uninterested in repeating lines about investor value and scalability, and interested in the possibilities of change and progress through tech in places other than revenue generation. I was very happy that this was my first conference back after a few years out of the scene.
+
+![image.png](https://uploads.archival.dev/343d39d42160d9a423b688fb4bdaa33d0356b513d5adc776ce67e84322e5a1d7/43034605b27027a128a13b44c7c4e8f322dc85de650950b704242a7f83aa9e6c/image.png)
+
+Day 2 & 3 of the fest were similar, the keynotes and discussions were amazing. Some highlights:
+
+* A panel about data ownership beyond the grave, which proposed treating data like a corpse/flesh, rather than as property. Makes a ton of sense and has plenty of legal precedent, and solves for a lot of the worst parts about dying on the internet today. Very compelling!
+* A talk highlighting side-channel attacks on privacy via innocuous means (e.g. access to camera roll or contacts leaking personal info showing screenshots of private text or inferring personal information via the presence of pre-natal doctor contacts)
+* A performance by a bolivian hip hop artist
+* A discussion of AI sovereignty and the benefits and risks involved
+
+![image.png](https://uploads.archival.dev/343d39d42160d9a423b688fb4bdaa33d0356b513d5adc776ce67e84322e5a1d7/93ae9aeb26775c6961d022875b36efc904c35306af0f495f4fa741a0798f448f/image.png)
+
+Lots and lots more, but mostly had a ton of really enlightening and encouraging conversations with the attendees. I don’t think I’ve been to a conference with this level of ethical alignment before, which was really incredible.
+
+![image.png](https://uploads.archival.dev/343d39d42160d9a423b688fb4bdaa33d0356b513d5adc776ce67e84322e5a1d7/4c05131ea6df531a8441cd53cbbfa0cbf9daa467b2447cc40d8700a21c1b0013/image.png)
+
+The last night they threw a party for us at Para•Lel 62, complete with a surprising number of dancing attendees, where conversations both about life and business continued through a few B2B sets. Barcelona has an amazing array of venues and it often feels like the bar there for live venues is just much higher than everywhere else.
+
+![image.png](https://uploads.archival.dev/343d39d42160d9a423b688fb4bdaa33d0356b513d5adc776ce67e84322e5a1d7/59767d2d43ce89f666769788742d3215d6947798976f309a7e5f8f8da0892760/image.png)
+
+It sounds like we may get an invite to speak again next year, in which case I’ll be back with something even more actionable and curious, and either way I expect I’ll be back. The Mozfest team really did an incredible job building something that felt much more community-oriented than a “tech conference” and the results in terms of conversations and connections were stunning!
+"""
+
+[[media]]
+alt = "mozilla festival entrance at fabrica I coats"
+
+[media.file]
+type = "image"
+
+[media.file.value]
+display_type = "image"
+filename = "IMG_1431.jpeg"
+sha = "7cd2231b9f8370827020143d4d26253c0663665fee19a47ec2c4f884f89205f6"
+mime = "image/jpeg"
+name = "IMG_1431.jpeg"

@@ -1,0 +1,83 @@
+order = 33
+created_at = 2026-10-09T00:00:00.0
+content = """
+# 4 albums to listen to that came out today
+
+<br />
+
+![1.00](https://uploads.archival.dev/343d39d42160d9a423b688fb4bdaa33d0356b513d5adc776ce67e84322e5a1d7/59e4c3b37dabbc1836be64a79fdf218840fee2256e221ad8b2c6bcd338ca289c/image.png)
+
+### Bäckerei 2000 - C.A.R.
+
+Weirdly, there are 2 bands called C.A.R., both are still somewhat obscure, both are active, and both are pretty great bands. This particular C.A.R. is a truly unique jazz/jam/ambient instrumental project with a focus on sax and synth out of Cologne, Germany. This album is an expansive and heady journey, an experimental genre bending Jazz that is best listened to focused and alone.
+
+![1.00](https://uploads.archival.dev/343d39d42160d9a423b688fb4bdaa33d0356b513d5adc776ce67e84322e5a1d7/7285773793a62533e7310fed94c42c32d5f095523659081d0dc6e1acf8685c4f/image.png)
+
+#### Mud - Remi Wolf
+
+Remi Wolf is one of my favorite pop artists going, and this album showcases her clever songwriting, catchy melodies, huge energy, and unmatched production value. I can't wait to listen to this enough times to get a few stuck in my head.
+
+![1.00](https://uploads.archival.dev/343d39d42160d9a423b688fb4bdaa33d0356b513d5adc776ce67e84322e5a1d7/3db156f4bc334cab902a84492068000278f972ce830d179f952a2815c9f88eb7/image.png)
+
+## Half An Owl And A Full Moon Rising - Steffi
+
+Steffi expertly walks the line between house and techno, and is one of the producers that I appreciate a lot for focusing on the album format and building track lists rather than set lists. This album is, like her other work, a slow build and driving kick that would be at home in any club in Berlin, but still chill enough to avoid your annoying friends pumping their fists if you put it on in the background at dinner.
+
+![1.00](https://uploads.archival.dev/343d39d42160d9a423b688fb4bdaa33d0356b513d5adc776ce67e84322e5a1d7/c15f7999504af3e6fa8aae52c0903ff2393c7146066a5377be9fc31f3c662894/image.png)
+
+### Dja Dja - Marina Herlop
+
+Merina Herlop is a composer, who works primarily on synth and keys but produces a sound much more akin to a live Bjork performance. This album plays all the way through like a symphony, and could be seen as an orchestral performance by one, built layer by layer. I became aware of her due to her perennial appearances at Primavera Sound. Her live shows inspire both tilted heads and fascinated reverence, and it's arguable that there isn't really anyone doing what she's doing. This album pushes the definition of music by using familiar tools to create a completely foreign construction.
+"""
+
+[[media]]
+alt = "Bäckerei 2000 - C.A.R."
+
+[media.file]
+type = "image"
+
+[media.file.value]
+display_type = "image"
+filename = "c.a.png"
+sha = "59e4c3b37dabbc1836be64a79fdf218840fee2256e221ad8b2c6bcd338ca289c"
+mime = "image/png"
+name = "c.a.png"
+
+[[media]]
+alt = "Mud - Remi Wolf"
+
+[media.file]
+type = "image"
+
+[media.file.value]
+display_type = "image"
+filename = "mud.png"
+sha = "7285773793a62533e7310fed94c42c32d5f095523659081d0dc6e1acf8685c4f"
+mime = "image/png"
+name = "mud.png"
+
+[[media]]
+alt = "Half An Owl And A Full Moon Rising - Steffi"
+
+[media.file]
+type = "image"
+
+[media.file.value]
+display_type = "image"
+filename = "steffi.png"
+sha = "3db156f4bc334cab902a84492068000278f972ce830d179f952a2815c9f88eb7"
+mime = "image/png"
+name = "steffi.png"
+
+[[media]]
+alt = "Dja Dja - Marina Herlop"
+
+[media.file]
+type = "image"
+
+[media.file.value]
+display_type = "image"
+filename = "marina-herlop.png"
+sha = "c15f7999504af3e6fa8aae52c0903ff2393c7146066a5377be9fc31f3c662894"
+mime = "image/png"
+name = "marina-herlop.png"

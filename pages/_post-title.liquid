@@ -1,0 +1,18 @@
+{%- assign title_excerpt = "" -%}
+{%- if item.content -%}
+  {%- assign title_html = item.content | strip -%}
+  {%- assign title_tag = title_html | slice: 0, 3 -%}
+  {%- if title_tag != "<hr" and title_tag contains "<h" -%}
+    {%- assign title_excerpt = title_html | split: "</h" | first | strip_html | strip -%}
+  {%- endif -%}
+  {%- if title_excerpt == blank -%}
+    {%- assign title_excerpt = title_html | replace: "</", " </" | strip_html | truncatewords: 10 -%}
+  {%- endif -%}
+{%- endif -%}
+{%- if title_excerpt != blank -%}
+{{- title_excerpt -}}
+{%- else -%}
+{%- assign title_kind = "Note" -%}
+{%- for m in item.media limit: 1 -%}{%- if m.file -%}{%- assign title_kind = m.file.type | capitalize -%}{%- endif -%}{%- endfor -%}
+{{- title_kind }} from {{ item.created_at | default: "now" | date: "%B %-d, %Y" -}}
+{%- endif -%}

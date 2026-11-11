@@ -1,0 +1,27 @@
+site_url = "https://jesse.news"
+site_name = "jesse.news"
+upload_prefix = "343d39d42160d9a423b688fb4bdaa33d0356b513d5adc776ce67e84322e5a1d7/"
+scripts_dir = "src"
+scripts_build_dir = ""
+
+[editor_types.unfurl]
+type = "meta"
+editor_url = "/editors/unfurl/index.html"
+
+[[editor_types.unfurl.validate]]
+path = "url"
+validate = "^https?://"
+
+[editor_types.clock]
+type = "string"
+validate = ["^$|^([01][0-9]|2[0-3]):[0-5][0-9]$"]
+
+[editor_types.posted]
+type = "date"
+validate = []
+editor_url = "/editors/posted/index.html"
+
+[metadata]
+source_template_ref = "heads/templates/new"
+source_template_sha = "aa1d80991ea0449e04f382402b2e8f24461df537"
+source_template_repo = "archival-website"

@@ -1,0 +1,65 @@
+created_at = 2026-10-06T01:47:27.0
+content = """
+# Bello
+
+We got a new doggie. A few pics from the first week!"""
+
+[[media]]
+alt = "Bello in bed"
+
+[media.file]
+type = "image"
+
+[media.file.value]
+display_type = "image"
+filename = "17818821525215560318.jpeg"
+sha = "fd28a87f7368e0ab86ad3a0bbb8d600ffed912a3a94a9a24f09ee648fb03104d"
+mime = "image/jpeg"
+
+[[media]]
+alt = "Is he a tiny Doberman?"
+
+[media.file]
+type = "image"
+
+[media.file.value]
+display_type = "image"
+filename = "12884410685728725266.jpeg"
+sha = "6710fe2f02e529cb7defbe213b2c0f0c5b02b698861c53e1341bbafc3a69f4f6"
+mime = "image/jpeg"
+
+[[media]]
+alt = "Sploot"
+
+[media.file]
+type = "image"
+
+[media.file.value]
+display_type = "image"
+filename = "13508542442087082344.jpeg"
+sha = "534c9bdb829692f2dbd0169301a12c13ecb81e10555afb8909cd18269535d914"
+mime = "image/jpeg"
+
+[[media]]
+alt = "With sis"
+
+[media.file]
+type = "image"
+
+[media.file.value]
+display_type = "image"
+filename = "9054282851152077190.jpeg"
+sha = "419de314b4f433f58aceb2cf5d6ec8f04fa00c1d599a1c0b43466c512c3a76f6"
+mime = "image/jpeg"
+
+[[media]]
+alt = "Running around"
+
+[media.file]
+type = "video"
+
+[media.file.value]
+display_type = "video"
+filename = "1792493868302088556.mov"
+sha = "64a02b8ade96a8714441b14a9cb1453901a6284be762909dd2a5fcd484fe0847"
+mime = "video/quicktime"

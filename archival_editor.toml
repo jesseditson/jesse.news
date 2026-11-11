@@ -1,0 +1,92 @@
+allow_mastodon_clients = true
+
+[[post.views]]
+name = "default"
+primary = "content"
+secondary = "created_at"
+
+[[post.views]]
+name = "by date"
+primary = "created_at"
+secondary = "content"
+
+[[post.children.media.views]]
+name = "default"
+primary = "file"
+secondary = "alt"
+
+[[site.children.background.views]]
+name = "default"
+primary = "video"
+secondary = "starts"
+tertiary = "ends"
+
+[[site.children.elsewhere.views]]
+name = "default"
+primary = "label"
+secondary = "url"
+
+[[site.children.webmention_blocklist.views]]
+name = "default"
+primary = "domain"
+
+[[shortcuts]]
+name = "New Post"
+path = "post"
+
+[[activitypub]]
+username = "jesse"
+domain = "jesse.news"
+email = ""
+follow = [
+  "Rubenlinde@fosstodon.org",
+  "zenbrowser@floss.social",
+  "evanprodromou@socialwebfoundation.org",
+]
+
+[activitypub.actor]
+object = "site"
+name = "name"
+summary = "description"
+icon = "avatar"
+
+[activitypub.objects.post]
+type = "Note"
+content = "content"
+published = "created_at"
+
+[activitypub.objects.post.attachment]
+children = "media"
+file = "file"
+name = "alt"
+
+[webmention]
+domain = "jesse.news"
+
+[webmention.author]
+object = "site"
+name = "name"
+photo = "avatar"
+
+[webmention.objects.post]
+content = "content"
+published = "created_at"
+bookmark_of = "link.url"
+
+[atproto]
+domain = "jesse.news"
+
+[atproto.actor]
+object = "site"
+name = "name"
+summary = "description"
+icon = "avatar"
+
+[atproto.objects.post]
+content = "content"
+published = "created_at"
+
+[atproto.objects.post.attachment]
+children = "media"
+file = "file"
+name = "alt"

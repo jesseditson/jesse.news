@@ -1,0 +1,14 @@
+name: Archival
+on:
+  push:
+    branches:
+      - main
+permissions:
+  contents: write
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - name: Archival Build
+        uses: archival-dev/archival@main

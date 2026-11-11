@@ -1,0 +1,59 @@
+{%- assign item = post -%}
+{%- assign l = post.link -%}
+{%- assign shared_url = "" -%}
+{%- if l -%}{%- if l.url -%}{%- assign shared_url = l.url -%}{%- endif -%}{%- endif -%}
+{%- assign page_description = "" -%}
+{%- assign opens_with_h1 = false -%}
+{%- if post.content -%}
+  {%- assign content_tag = post.content | strip | slice: 0, 3 -%}
+  {%- if content_tag == "<h1" -%}{%- assign opens_with_h1 = true -%}{%- endif -%}
+  {%- capture newline %}
+{% endcapture -%}
+  {%- assign page_description = post.content | replace: "</", " </" | strip_html | replace: newline, " " | replace: "  ", " " | strip | truncatewords: 40 -%}
+{%- endif -%}
+{%- assign preview_image = "" -%}
+{%- for m in post.media -%}
+  {%- if m.file -%}{%- if m.file.type == "image" and preview_image == blank -%}{%- assign preview_image = m.file.value.url -%}{%- endif -%}{%- endif -%}
+{%- endfor -%}
+{%- if shared_url != blank -%}
+  {%- assign post_title = shared_url -%}
+  {%- if l.title -%}{%- assign post_title = l.title -%}{%- endif -%}
+  {%- if page_description == blank and l.description -%}{%- assign page_description = l.description -%}{%- endif -%}
+  {%- if preview_image == blank and post.media.size == 0 -%}{%- if l.image -%}{%- if l.image.url -%}{%- assign preview_image = l.image.url -%}{%- endif -%}{%- endif -%}{%- endif -%}
+{%- else -%}
+  {%- capture post_title -%}{% include 'post-title' %}{%- endcapture -%}
+{%- endif -%}
+{%- capture ld_headline -%}{{ post_title | replace: '\', '\\' | replace: '"', '\"' | strip_newlines }}{%- endcapture -%}
+{%- capture ld_body -%}{{ page_description | replace: '\', '\\' | replace: '"', '\"' | strip_newlines }}{%- endcapture -%}
+{%- capture ld_url -%}{{ shared_url | replace: '\', '\\' | replace: '"', '\"' | strip_newlines }}{%- endcapture -%}
+{%- capture ld_author -%}{{ site.author | replace: '\', '\\' | replace: '"', '\"' | strip_newlines }}{%- endcapture -%}
+{%- capture jsonld -%}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SocialMediaPosting",
+  "headline": "{{ ld_headline }}",
+  "url": "{{ site_url }}/{{ post.path }}.html"
+  {%- if post.created_at -%}, "datePublished": "{{ post.created_at | date: "%Y-%m-%dT%H:%M:%S%:z" }}"{%- endif -%}
+  {%- if ld_body != blank -%}, "articleBody": "{{ ld_body }}"{%- endif -%}
+  {%- if ld_url != blank -%}, "sharedContent": { "@type": "WebPage", "url": "{{ ld_url }}", "name": "{{ ld_headline }}" }{%- endif -%}
+  {%- if preview_image != blank -%}, "image": "{{ preview_image }}"{%- endif -%}
+  {%- if ld_author != blank -%}, "author": { "@type": "Person", "name": "{{ ld_author }}" }{%- endif %}
+}
+</script>
+{%- endcapture -%}
+{% layout 'theme' title: post_title, description: page_description, og_type: "article", image: preview_image, jsonld: jsonld %}
+{%- if shared_url != blank %}
+<div class="solo" data-solo>
+  {% include 'card', item: post, heading: "h1", open: true %}
+</div>
+{%- else %}
+{%- unless opens_with_h1 %}
+<h1 class="visually-hidden">{{ post_title }}</h1>
+{%- endunless %}
+<div class="solo" data-solo>
+  {% include 'card', item: post, heading: "h2", open: true %}
+</div>
+{%- endif %}
+<div class="feed" data-feed data-feed-source="/"></div>
+<p class="feed-status" data-feed-status aria-live="polite"></p>

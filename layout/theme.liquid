@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <script>try{if(localStorage.getItem("jesse.news:mode")==="minimal")document.documentElement.dataset.mode="minimal"}catch(e){}</script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    {% assign site_name = site.name %}
+    {% if title != blank %}
+      {% assign page_title = title | append: " — " | append: site_name %}
+    {% else %}
+      {% assign page_title = site_name %}
+    {% endif %}
+    {% if description != blank %}
+      {% assign page_description = description %}
+    {% else %}
+      {% assign page_description = site.description %}
+    {% endif %}
+    {% assign og_image_url = "" %}
+    {% if image != blank %}
+      {% assign og_image_url = image %}
+    {% elsif site.og_image != blank %}
+      {% assign og_image_url = site.og_image.url %}
+    {% endif %}
+    <title>{{ page_title | escape }}</title>
+    <meta name="description" content="{{ page_description | escape }}">
+    {% if site.author != blank %}<meta name="author" content="{{ site.author | escape }}">{% endif %}
+    <meta property="og:title" content="{{ page_title | escape }}">
+    <meta property="og:description" content="{{ page_description | escape }}">
+    <meta property="og:type" content="{{ og_type }}">
+    <meta property="og:site_name" content="{{ site_name | escape }}">
+    {% if og_image_url != blank %}
+    <meta property="og:image" content="{{ og_image_url }}">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content="{{ og_image_url }}">
+    {% else %}
+    <meta name="twitter:card" content="summary">
+    {% endif %}
+    <meta name="twitter:title" content="{{ page_title | escape }}">
+    <meta name="twitter:description" content="{{ page_description | escape }}">
+    <meta name="theme-color" content="#1a1712" media="(prefers-color-scheme: dark)">
+    <meta name="theme-color" content="#2a241c" media="(prefers-color-scheme: light)">
+    <link rel="alternate" type="application/rss+xml" title="{{ site_name | escape }}" href="{{ site_url }}/feed.xml">
+    {% assign words = site_name | split: " " %}
+    {% assign initials = "" %}
+    {% if words.size == 1 %}
+      {% assign initials = words[0] | slice: 0, 2 | upcase %}
+    {% else %}
+      {% for word in words limit: 2 %}
+        {% assign letter = word | slice: 0, 1 | upcase %}
+        {% assign initials = initials | append: letter %}
+      {% endfor %}
+    {% endif %}
+    {% assign initials = initials | replace: "&", "" | replace: "<", "" | replace: ">", "" | replace: "'", "" | replace: '"', "" %}
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23111'/%3E%3Ctext x='16' y='21' text-anchor='middle' font-family='system-ui,sans-serif' font-weight='bold' font-size='13' fill='%23e5ff00'%3E{{ initials }}%3C/text%3E%3C/svg%3E">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,400..800;1,14..32,400..800&display=swap">
+    <link rel="stylesheet" href="/style.css">
+    {{ jsonld }}
+    <script type="module" src="/scripts/main.js"></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <div class="backdrop" aria-hidden="true">
+      <canvas class="backdrop-canvas"></canvas>
+    </div>
+    {% assign sep = "" %}
+    <script type="application/json" id="backdrop-videos">[{% for bg in site.background %}{% if bg.video != blank %}{% if bg.video.url != blank %}{{ sep }}{"url":"{{ bg.video.url }}","mime":"{{ bg.video.mime }}","starts":"{% if bg.starts %}{{ bg.starts }}{% endif %}","ends":"{% if bg.ends %}{{ bg.ends }}{% endif %}"}{% assign sep = "," %}{% endif %}{% endif %}{% endfor %}]</script>
+    <header class="site-header">
+      {%- if title != blank %}
+      <p class="site-name"><a href="/">{{ site_name }}</a></p>
+      {%- else %}
+      <h1 class="site-name">{{ site_name }}</h1>
+      {%- endif %}
+      <p class="weather-note" data-weather-note hidden>
+        <span data-weather-text></span>
+        <button type="button" class="weather-toggle" data-weather-toggle>Wipe the glass</button>
+      </p>
+    </header>
+    <main id="main"
+      data-breeze="{% if site.show_breeze != false %}on{% else %}off{% endif %}"
+      data-rain="{% if site.show_rain != false %}on{% else %}off{% endif %}"
+      data-comments="{% if site.show_comments != false %}on{% else %}off{% endif %}">
+      {{ page_content }}
+    </main>
+    <footer class="site-footer">
+      <ul class="site-links">
+        <li><a href="/feed.xml">RSS</a></li>
+        {%- for e in site.elsewhere %}
+        {%- if e.url != blank %}
+        <li><a rel="me" href="{{ e.url }}">{{ e.label | default: e.url }}</a></li>
+        {%- endif %}
+        {%- endfor %}
+        {%- if site.show_contact != false %}
+        <li><a href="/contact.html" data-zoom>Contact</a></li>
+        {%- endif %}
+      </ul>
+      <p class="follow-note" data-follow hidden>
+        <button type="button" class="follow-handle" data-follow-handle title="Copy handle"></button>
+        <span class="follow-count" data-follow-count></span>
+        <span class="follow-copied" data-follow-copied role="status"></span>
+      </p>
+      <p class="account-note" data-account-note hidden>
+        Signed in as <span class="account-name" data-account-name></span>
+        <button type="button" class="account-link" data-account-rename>Change name</button>
+        <button type="button" class="account-link" data-account-signout>Sign out</button>
+      </p>
+      <p class="newsletter-note" data-newsletter-note hidden>
+        <span data-newsletter-note-text></span>
+        <button type="button" class="newsletter-unsubscribe" data-newsletter-unsubscribe>Unsubscribe</button>
+      </p>
+      <p>&copy; {{ "now" | date: "%Y" }} {{ site_name }}. Powered by <a href="https://archival.dev">Archival</a>.</p>
+    </footer>
+    <p id="newsletter-confirmed" class="flash" role="status">You're subscribed. New posts are on their way.</p>
+    <p id="newsletter-expired" class="flash" role="alert">That confirmation link has already been used or has expired.</p>
+    <p id="newsletter-removed" class="flash" role="status">You're unsubscribed. Nothing more will be sent.</p>
+    <div class="dock">
+      {%- if site.show_newsletter != false %}
+      <form class="newsletter" data-newsletter-form hidden novalidate>
+        <label class="visually-hidden" for="newsletter-address">Email address</label>
+        <input id="newsletter-address" name="address" type="email" autocomplete="email" maxlength="320" placeholder="Get new posts by email" required>
+        <button type="submit">Subscribe</button>
+        <button type="button" class="newsletter-dismiss" aria-label="Dismiss" data-newsletter-dismiss>
+          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M7 7l10 10M17 7 7 17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        </button>
+        <p class="newsletter-status" role="status" aria-live="polite" data-newsletter-status></p>
+      </form>
+      {%- endif %}
+      <fieldset class="mode-switch" data-mode-switch>
+        <legend class="visually-hidden">Display style</legend>
+        <label class="mode-option" title="Scenic">
+          <input type="radio" name="mode" value="scenic" checked>
+          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 2.5 6.5 10h3L5 16.5h5.5V21.5h3V16.5H19L14.5 10h3z" fill="currentColor"/></svg>
+          <span class="visually-hidden">Scenic</span>
+        </label>
+        <label class="mode-option" title="Minimal">
+          <input type="radio" name="mode" value="minimal">
+          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="5.5" y="5.5" width="13" height="13" rx="1.5" fill="none" stroke="currentColor" stroke-width="2"/></svg>
+          <span class="visually-hidden">Minimal</span>
+        </label>
+      </fieldset>
+    </div>
+    <div class="vhs" aria-hidden="true"></div>
+  </body>
+</html>

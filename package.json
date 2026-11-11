@@ -1,0 +1,15 @@
+{
+  "name": "jesse-news",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "postinstall": "npm ci --prefix carriers/social --ignore-scripts",
+    "check": "tsc --noEmit && archival-carrier-types --check"
+  },
+  "devDependencies": {
+    "@archival/carrier": "^1.6.0",
+    "@archival/custom-editor-api": "^0.9.2",
+    "@webgpu/types": "^0.1.74",
+    "typescript": "^7.0.2"
+  }
+}

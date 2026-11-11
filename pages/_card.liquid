@@ -1,0 +1,13 @@
+{%- assign posted_at = item.created_at | default: "now" -%}
+{%- assign stamp = posted_at | date: "%j%H%M" | plus: 0 -%}
+{%- assign tilt = stamp | modulo: 9 | minus: 4 | times: 0.3 | round: 2 -%}
+{%- assign paper = stamp | modulo: 13 -%}
+{%- assign datestamp = posted_at | date: "'%y %-m %-d" -%}
+{%- assign pretty_date = posted_at | date: "%b %-d, %Y" -%}
+{%- assign iso_date = posted_at | date: "%Y-%m-%dT%H:%M:%S%z" -%}
+{%- assign shared_url = "" -%}{%- if item.link -%}{%- if item.link.url -%}{%- assign shared_url = item.link.url -%}{%- endif -%}{%- endif -%}
+{%- if shared_url != blank -%}
+{% include 'link-card' %}
+{%- else -%}
+{% include 'post-card' %}
+{%- endif -%}

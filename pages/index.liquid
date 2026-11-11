@@ -1,0 +1,37 @@
+{%- capture ld_name -%}{{ site.name | replace: '\', '\\' | replace: '"', '\"' | strip_newlines }}{%- endcapture -%}
+{%- capture ld_description -%}{{ site.description | replace: '\', '\\' | replace: '"', '\"' | strip_newlines }}{%- endcapture -%}
+{%- capture ld_author -%}{{ site.author | replace: '\', '\\' | replace: '"', '\"' | strip_newlines }}{%- endcapture -%}
+{%- capture jsonld -%}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Blog",
+  "name": "{{ ld_name }}",
+  "url": "{{ site_url }}/"
+  {%- if ld_description != blank -%}, "description": "{{ ld_description }}"{%- endif -%}
+  {%- if ld_author != blank -%}, "author": { "@type": "Person", "name": "{{ ld_author }}" }{%- endif %}
+}
+</script>
+{%- endcapture -%}
+{% layout 'theme' title: "", description: "", og_type: "website", image: "", jsonld: jsonld %}
+{%- assign dated = posts | where: "created_at" | sort: "created_at" | reverse -%}
+{%- assign items = dated | where: "pinned" -%}
+{%- for item in posts -%}
+  {%- unless item.created_at -%}
+    {%- assign one = posts | slice: forloop.index0, 1 -%}
+    {%- assign items = one | concat: items -%}
+  {%- endunless -%}
+{%- endfor -%}
+{%- for item in dated -%}
+  {%- unless item.pinned -%}
+    {%- assign one = dated | slice: forloop.index0, 1 -%}
+    {%- assign items = items | concat: one -%}
+  {%- endunless -%}
+{%- endfor -%}
+<div class="feed" data-feed>
+  {%- for item in items limit: 24 %}
+  {% include 'card', item: item, heading: "h2", open: false %}
+  {%- endfor %}
+</div>
+<p class="feed-status" data-feed-status aria-live="polite"></p>
+<script type="application/json" id="feed-rest">[{% for item in items offset: 24 %}{% unless forloop.first %},{% endunless %}"{{ item.path }}"{% endfor %}]</script>

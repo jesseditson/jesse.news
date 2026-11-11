@@ -1,0 +1,82 @@
+created_at = 2026-10-23T22:37:38.22
+content = """
+# 4 albums to listen to that came out today
+
+![image.png](https://uploads.archival.dev/343d39d42160d9a423b688fb4bdaa33d0356b513d5adc776ce67e84322e5a1d7/0d86239243bc3bb81f4b34e1fb1ac47c00456eb3ef9e4a44d1902630d5c2dd9b/image.png)
+
+## Me and the Music - Claud
+
+Not sure where I first heard Claud, but all their stuff (especially "Super Monster") are wonderful indie-pop anthems that are distinctly queer and clever. This album seems to have a sheen that maybe isn't quite as resonant for me, but the tradeoff are some really nice "water from your eyes" basslines that I'm enjoying.
+
+![image.png](https://uploads.archival.dev/343d39d42160d9a423b688fb4bdaa33d0356b513d5adc776ce67e84322e5a1d7/e9415e93d530b74421b41d23f492855980b76bdc6e8959ec63b1fffce9eaf803/image.png)
+
+## Gentling the Horse at the Walt Whitman Mall - Caroline Rose
+
+Caroline Rose is what I always hope for when I go to an LA show. Confident chaos, a vision that maybe I don't understand totally but I wanna bang a head to. This album continues that heroic behavior! Can't wait to see this stuff live!
+
+![image.png](https://uploads.archival.dev/343d39d42160d9a423b688fb4bdaa33d0356b513d5adc776ce67e84322e5a1d7/6a4493136f91985b179f3955cd9326be156855702b62dec413b225cd93583027/image.png)
+
+## What To Make Of These Mortal Hands - Dis Fig
+
+I heard Dis Fig on a collab with The Bug, which I absolutely loved - and had the privilege of seeing her do some live stuff with The Body. All three of these bands make super dark music of a different kind - this album helps me understand which parts were hers. The atmosphere on this record is intense and abyssal without feeling too angry. There's elements of ARCA in here but it still has plenty of guitars. Not the kind of record you'd listen to with your mom but a really nice ambient/industrial thing going here.
+
+<br />
+
+![images (2).jpeg](https://uploads.archival.dev/343d39d42160d9a423b688fb4bdaa33d0356b513d5adc776ce67e84322e5a1d7/38985439f11d515cb18173046383a5c00c54454a234553b72d86e90690eaa2af/images%20%282%29.jpeg)
+
+## Fudge - Michael Kiwanuka
+
+I was just thinking about how I needed a new record from this guy! This album deserves a dedicated review that I won't be able to give it, but suffice to say it's a must listen for pretty much everyone I know. This is the kind of pop/soul that is generationally rare and everything he makes is a gift.
+"""
+
+[[media]]
+alt = "Fudge - Michael Kiwanuka"
+
+[media.file]
+type = "image"
+
+[media.file.value]
+display_type = "image"
+filename = "images (2).jpeg"
+sha = "38985439f11d515cb18173046383a5c00c54454a234553b72d86e90690eaa2af"
+mime = "image/jpeg"
+name = "images (2).jpeg"
+
+[[media]]
+alt = "What To Make Of These Mortal Hands - Dis Fig"
+
+[media.file]
+type = "image"
+
+[media.file.value]
+display_type = "image"
+filename = "a4200769196_1x1_700.jpeg"
+sha = "6071affc0584f83451695649882980f028a9dc1723fab4c45dd0995d7b63fac0"
+mime = "image/jpeg"
+name = "a4200769196_1x1_700.jpeg"
+
+[[media]]
+alt = " Gentling the Horse at the Walt Whitman Mall - Caroline Rose"
+
+[media.file]
+type = "image"
+
+[media.file.value]
+display_type = "image"
+filename = "a3267865692_1x1_700.jpeg"
+sha = "0ce657d80e7b2ab84703c93fb3f575bbd9f77f0fea0af74afda557118a052dae"
+mime = "image/jpeg"
+name = "a3267865692_1x1_700.jpeg"
+
+[[media]]
+alt = "Me and the Music - Claud"
+
+[media.file]
+type = "image"
+
+[media.file.value]
+display_type = "image"
+filename = "a266648009_1x1_700.jpeg"
+sha = "68329e1d11c2f93894d0b6cebc276f6aaa300bc4ffd033e4a04874cf4583600a"
+mime = "image/jpeg"
+name = "a266648009_1x1_700.jpeg"

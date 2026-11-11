@@ -1,0 +1,28 @@
+order = 5
+created_at = 2026-09-11T12:00:00.0
+
+[link]
+url = "https://jesseditson.com/article/i-never-wanted-a-phone"
+title = "I Never Wanted A Phone"
+description = "Thoughts on the iPhone Duo"
+site_name = "Jesse Ditson"
+domain = "jesseditson.com"
+type = "article"
+theme_color = "#ffffff"
+fetched_at = "2026-10-04T23:40:00Z"
+
+[link.image]
+url = "https://uploads.archival.dev/343d39d42160d9a423b688fb4bdaa33d0356b513d5adc776ce67e84322e5a1d7/1cb66b49598486e36e2511d767254c883a6c5552831c4c99535baa19767db77d/i-never-wanted-a-phone-preview.jpg"
+sha = "1cb66b49598486e36e2511d767254c883a6c5552831c4c99535baa19767db77d"
+filename = "i-never-wanted-a-phone-preview.jpg"
+mime = "image/jpeg"
+width = 1200.0
+height = 677.0
+source = "https://uploads.archival.dev/adfa5a14417b5e841bd68aef8d35c89d5be163ea46234f0a92301a24f450c1c0/4048c25d9d8857fc21446dbafed5ca90032dec1189efba4197f7dc3226665efa/Generated%20Image%20September%2011%2C%202026%20-%2011_59AM.png"
+
+[link.favicon]
+url = "https://uploads.archival.dev/343d39d42160d9a423b688fb4bdaa33d0356b513d5adc776ce67e84322e5a1d7/f1a1edc01a948afbdac1feb1cb5d1b60e95647a9b8c15bd04e28cbb5ace36ed4/jesseditson-com-icon.png"
+sha = "f1a1edc01a948afbdac1feb1cb5d1b60e95647a9b8c15bd04e28cbb5ace36ed4"
+filename = "jesseditson-com-icon.png"
+mime = "image/png"
+source = "https://jesseditson.com/icon.png"

@@ -1,0 +1,46 @@
+{%- assign l = item.link -%}
+{%- assign link_url = "" -%}
+{%- assign link_title = "" -%}
+{%- assign link_source = "" -%}
+{%- if l -%}
+  {%- if l.url -%}{%- assign link_url = l.url -%}{%- endif -%}
+  {%- if l.title -%}{%- assign link_title = l.title -%}{%- endif -%}
+  {%- if l.site_name -%}{%- assign link_source = l.site_name -%}{%- endif -%}
+  {%- if link_source == blank and l.domain -%}{%- assign link_source = l.domain -%}{%- endif -%}
+{%- endif -%}
+{%- if link_title == blank -%}{%- assign link_title = link_url -%}{%- endif -%}
+{%- assign show_preview = false -%}
+{%- if item.media.size == 0 -%}{%- if l.image -%}{%- if l.image.url -%}{%- assign show_preview = true -%}{%- endif -%}{%- endif -%}{%- endif -%}
+{%- if link_url != blank -%}
+<article class="card card--link{% if open %} is-open{% endif %}{% if item.media.size > 0 or show_preview %} has-media{% endif %}" data-path="{{ item.path }}" data-title="{{ link_title | escape }}" data-paper="{{ paper }}" style="--tilt: {{ tilt }}deg{% if l.theme_color %}; --source: {{ l.theme_color | escape }}{% endif %}">
+  <div class="card-paper">
+    <header class="card-head card-source">
+      {%- if l.favicon %}{%- if l.favicon.url %}
+      <img class="favicon" src="{{ l.favicon.url }}" alt="" width="16" height="16" loading="lazy" decoding="async">
+      {%- endif %}{%- endif %}
+      <span class="source-name">{{ link_source | escape }}</span>
+      <a class="card-permalink" href="/{{ item.path }}.html"><span class="visually-hidden">Permalink, shared </span><time datetime="{{ iso_date }}">{{ pretty_date }}</time></a>
+    </header>
+    <div class="card-body">
+      <div class="link-text">
+        <{{ heading }} class="link-title"><a class="card-link" href="{{ link_url | escape }}" target="_blank" rel="noopener">{{ link_title | escape }}</a></{{ heading }}>
+        {%- if l.description %}
+        <p class="link-desc">{{ l.description | escape }}</p>
+        {%- endif %}
+        {%- assign comment_text = "" -%}
+        {%- if item.content -%}{%- assign comment_text = item.content | strip_html | strip -%}{%- endif -%}
+        {%- if comment_text != blank %}
+        <div class="link-comment markdown">{{ item.content }}</div>
+        {%- endif %}
+        <a class="visit" href="{{ link_url | escape }}" target="_blank" rel="noopener">Visit {{ link_source | escape }} <span aria-hidden="true">&rarr;</span></a>
+      </div>
+      {%- if show_preview %}
+      <figure class="photo photo--preview">
+        <img src="{{ l.image.url }}" alt="{% if l.image.alt %}{{ l.image.alt | escape }}{% endif %}" loading="lazy" decoding="async"{% if l.image.width %} width="{{ l.image.width }}" height="{{ l.image.height }}"{% endif %}>
+      </figure>
+      {%- endif %}
+      {% include 'card-media' %}
+    </div>
+  </div>
+</article>
+{%- endif -%}

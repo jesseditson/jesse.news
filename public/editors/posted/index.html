@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Posted</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="archival-editor:resource" content="posted.css" />
+    <meta name="archival-editor:resource" content="posted.js" />
+    <meta name="archival-editor:display" content="inline" />
+    <meta name="archival-editor:aspect" content="7:1" />
+    <link rel="stylesheet" href="posted.css" />
+  </head>
+  <body>
+    <div id="editor" class="inline">
+      <div id="controls" class="controls">
+        <label for="when">Posted</label>
+        <input id="when" type="datetime-local" step="60" />
+        <button id="now" type="button">Now</button>
+      </div>
+      <span id="list" class="list" hidden></span>
+    </div>
+    <script type="module" src="posted.js"></script>
+  </body>
+</html>

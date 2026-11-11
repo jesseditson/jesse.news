@@ -1,0 +1,30 @@
+      {%- if item.media.size > 0 %}
+      <div class="card-media" data-count="{{ item.media.size }}">
+        {%- for m in item.media %}
+        {%- if m.file %}
+        {%- assign media_alt = "" -%}
+        {%- if m.alt -%}{%- assign media_alt = m.alt -%}{%- endif -%}
+        {%- if m.file.type == "image" %}
+        <figure class="photo" style="--i: {{ forloop.index0 }}">
+          <img src="{{ m.file.value.url }}" alt="{{ media_alt | escape }}" loading="lazy" decoding="async">
+          <span class="datestamp" aria-hidden="true">{{ datestamp }}</span>
+        </figure>
+        {%- elsif m.file.type == "video" %}
+        <figure class="photo photo--video" style="--i: {{ forloop.index0 }}">
+          <video src="{{ m.file.value.url }}#t=0.1" preload="metadata" muted playsinline loop{% if media_alt != blank %} aria-label="{{ media_alt | escape }}"{% endif %}></video>
+          <span class="play-badge" aria-hidden="true"></span>
+          <span class="datestamp" aria-hidden="true">{{ datestamp }}</span>
+        </figure>
+        {%- elsif m.file.type == "audio" %}
+        {%- assign tape_label = media_alt -%}
+        {%- if tape_label == blank -%}{%- assign tape_label = m.file.value.filename -%}{%- endif -%}
+        <figure class="tape" style="--i: {{ forloop.index0 }}">
+          {% include 'cassette' %}
+          <figcaption class="tape-label">{{ tape_label | escape }}</figcaption>
+          <audio src="{{ m.file.value.url }}" preload="none" controls></audio>
+        </figure>
+        {%- endif %}
+        {%- endif %}
+        {%- endfor %}
+      </div>
+      {%- endif %}

@@ -1,0 +1,11 @@
+{% layout 'theme' title: "Contact", description: "", og_type: "website", image: "", jsonld: "" %}
+<p id="sent" class="flash" role="status">Thanks — your note is on its way.</p>
+<p id="unsent" class="flash" role="alert">That didn't go through. Try again in a bit.</p>
+<h1 class="visually-hidden">Contact</h1>
+<div class="solo" data-solo>
+  {%- if site.show_contact != false %}
+  {% include 'contact-card' %}
+  {%- endif %}
+</div>
+<div class="feed" data-feed data-feed-source="/"></div>
+<p class="feed-status" data-feed-status aria-live="polite"></p>

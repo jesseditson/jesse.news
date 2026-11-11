@@ -1,0 +1,57 @@
+name = "jesse.news"
+description = "A personal social site."
+author = "Jesse Ditson"
+show_breeze = true
+show_rain = true
+show_contact = true
+contact_email = ""
+email_from = "posts@jesse.news"
+show_comments = true
+show_newsletter = true
+admin_token = ""
+
+[avatar]
+display_type = "image"
+filename = "cocktails.jpeg"
+sha = "19810c11ac1756c6cc00c0b8b6a7a8508dbbc108b7d95d0c57a715696e9a2887"
+mime = "image/jpeg"
+name = "cocktails.jpeg"
+
+[[background]]
+
+[background.video]
+display_type = "video"
+filename = "bighorn_sheep_compressed.mp4"
+sha = "2326239056ce614e4253dc21c902d8d7bb3a77af8ea24e24b5d26a3bd587eb41"
+mime = "video/mp4"
+name = "bighorn_sheep_compressed.mp4"
+
+[[background]]
+
+[background.video]
+display_type = "video"
+filename = "bighorn_sheep_compressed_2.mp4"
+sha = "df7b005534cba4130370c76db7a190a61d0c0a4ef9c0cdd3ec03376651e15376"
+mime = "video/mp4"
+name = "bighorn_sheep_compressed_2.mp4"
+
+[[background]]
+
+[background.video]
+display_type = "video"
+filename = "bighorn_sheep_compressed_3.mp4"
+sha = "04b74b66d4ed7147744f32f71d43c19aa528121670adc71404d0d6848a09d964"
+mime = "video/mp4"
+name = "bighorn_sheep_compressed_3.mp4"
+
+[[elsewhere]]
+label = "jesseditson.com"
+url = "https://jesseditson.com"
+
+[[elsewhere]]
+label = "archival.dev"
+url = "https://archival.dev"
+
+[[elsewhere]]
+label = "Sugar Water"
+url = "https://sugar-water.net"

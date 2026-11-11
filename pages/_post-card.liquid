@@ -1,0 +1,16 @@
+{%- capture card_title -%}{% include 'post-title' %}{%- endcapture -%}
+{%- assign has_text = false -%}
+{%- if item.content -%}{%- assign plain = item.content | strip_html | strip -%}{%- if plain != blank -%}{%- assign has_text = true -%}{%- endif -%}{%- endif -%}
+<article class="card card--post{% if open %} is-open{% endif %}{% if has_text %} has-text{% endif %}{% if item.media.size > 0 %} has-media{% endif %}" data-path="{{ item.path }}" data-title="{{ card_title | escape }}" data-paper="{{ paper }}" style="--tilt: {{ tilt }}deg">
+  <div class="card-paper">
+    <header class="card-head">
+      <a class="card-permalink" href="/{{ item.path }}.html"><span class="visually-hidden">Open note from </span><time datetime="{{ iso_date }}">{{ pretty_date }}</time></a>
+    </header>
+    <div class="card-body">
+      {%- if has_text %}
+      <div class="card-text markdown">{{ item.content }}</div>
+      {%- endif %}
+      {% include 'card-media' %}
+    </div>
+  </div>
+</article>

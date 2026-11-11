@@ -1,0 +1,49 @@
+[site]
+name = "string"
+description = "string"
+author = "string"
+og_image = "image"
+avatar = "image"
+show_breeze = "boolean"
+show_rain = "boolean"
+show_contact = "boolean"
+contact_email = "secret"
+email_from = "string"
+show_comments = "boolean"
+show_newsletter = "boolean"
+admin_token = "secret"
+
+[site.background]
+video = "video"
+starts = "clock"
+ends = "clock"
+
+[site.elsewhere]
+label = "string"
+url = "string"
+
+[site.webmention_blocklist]
+domain = "string"
+
+[post]
+created_at = "posted"
+content = "markdown"
+pinned = "boolean"
+template = "post"
+link = "unfurl"
+
+[post.media]
+alt = "string"
+
+[[post.media.file]]
+name = "image"
+type = "image"
+
+[[post.media.file]]
+name = "video"
+type = "video"
+
+[[post.media.file]]
+name = "audio"
+type = "audio"
+

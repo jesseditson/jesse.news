@@ -1,0 +1,45 @@
+created_at = 2026-10-16T00:00:00.0
+content = '''
+# 2 albums that to listen to that came out today
+
+![1.00](https://uploads.archival.dev/343d39d42160d9a423b688fb4bdaa33d0356b513d5adc776ce67e84322e5a1d7/fb713fdad8166de047bf7ed6070b57f716df58f8bc9e22747bdc2030e7134e29/image.png)
+
+### No Bad Memories - The Avalanches
+
+I've been revisiting Since I Left You a lot lately, it was such an important album in general and left a big impression on me. It has such a special power of both being very complete as a single art piece and having a bunch of great singles. This one doesn't quite get there on the first listen, but is unmistakably avalanches, and despite the cover, isn't just a great listen because of nostalgia - it's contemporary and fun.
+
+<br />
+
+![1.00](https://uploads.archival.dev/343d39d42160d9a423b688fb4bdaa33d0356b513d5adc776ce67e84322e5a1d7/d9f409eeeed01c4506db53d898be30ce5307fa3b8121726bd85f79d68bf5cca0/image.png)
+
+### do you love the color of the sky? - Dummy
+
+This LA group has been putting out some really great stuff since 2021 - I have both their earlier albums on vinyl so I pre-ordered this one, and was delighted to hear that it maintains their driving poppy psych-shoegaze style, but has some really fun D\&B stuff going on. Gonna be spinning this one a lot!
+
+'''
+
+[[media]]
+alt = "do you love the color of the sky? - Dummy"
+
+[media.file]
+type = "image"
+
+[media.file.value]
+display_type = "image"
+filename = "a1164424094_1x1_700.jpeg"
+sha = "f7aeb091987161d05121d210d35d19438b0ec6b5fda06472439bca36f043e9aa"
+mime = "image/jpeg"
+name = "a1164424094_1x1_700.jpeg"
+
+[[media]]
+alt = "No Bad Memories - The Avalanches"
+
+[media.file]
+type = "image"
+
+[media.file.value]
+display_type = "image"
+filename = "images.jpg"
+sha = "b111631371a63b83610dbc6d122ed85adc8142aca17450a11640acc9f0a91555"
+mime = "image/jpeg"
+name = "images.jpg"

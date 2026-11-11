@@ -1,0 +1,38 @@
+created_at = 2026-10-27T13:55:44.322
+content = """
+Flew to Barcelona today, getting ready for Mozfest. This city really is one of my favorite places on earth, despite how little I understand of the language.
+
+<br />
+
+I landed at 9am local time, so I headed to a WeWork and had a wonderful conversation with some local technology people here already despite feeling a little crazy after the long flight. Not a bad view from the coworking space either.
+
+<br />
+
+Looking forward to the conference. I'll post some daily rollups here!
+"""
+
+[[media]]
+alt = "plaza and sea"
+
+[media.file]
+type = "image"
+
+[media.file.value]
+display_type = "image"
+filename = "DSC01253.jpeg"
+sha = "f82c27ec1c2c5c5693ee2c08f4a3fd5e5a80814eb30645ef062e6ff06bfeb31b"
+mime = "image/jpeg"
+name = "DSC01253.jpeg"
+
+[[media]]
+alt = "segrada"
+
+[media.file]
+type = "image"
+
+[media.file.value]
+display_type = "image"
+filename = "DSC01252.jpeg"
+sha = "8e00ec7b7a856970e47ff2412b916aafd0f9ca784f7071158ae936e669313d53"
+mime = "image/jpeg"
+name = "DSC01252.jpeg"

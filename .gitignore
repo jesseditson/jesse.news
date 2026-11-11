@@ -1,0 +1,12 @@
+# Archival
+dist
+bin/tmp
+
+# Dependencies
+node_modules
+
+# Carrier build files
+carrier_*
+
+# MacOS
+.DS_Store

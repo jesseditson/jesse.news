@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+{%- assign items = posts | where: "created_at" | sort: "created_at" | reverse %}
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>{{ site_url }}/</loc>
+    <changefreq>daily</changefreq>
+  </url>
+  {%- if site.show_contact != false %}
+  <url>
+    <loc>{{ site_url }}/contact.html</loc>
+  </url>
+  {%- endif %}
+  {%- for item in items %}
+  <url>
+    <loc>{{ site_url }}/{{ item.path }}.html</loc>
+    <lastmod>{{ item.created_at | date: "%Y-%m-%d" }}</lastmod>
+  </url>
+  {%- endfor %}
+</urlset>

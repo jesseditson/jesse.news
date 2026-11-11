@@ -1,0 +1,28 @@
+order = 23
+created_at = 2016-10-26T12:00:00.0
+
+[link]
+url = "https://jesseditson.com/article/making-a-demogorgon"
+title = "Making A Demogorgon"
+description = "This halloween we decided to stick with pop culture and try a Stranger things costume. I started it the same way I start every year, by taking screen caps, measuring everything, and scaling everything to my height."
+site_name = "Jesse Ditson"
+domain = "jesseditson.com"
+type = "article"
+theme_color = "#ffffff"
+fetched_at = "2026-10-04T23:40:00Z"
+
+[link.image]
+url = "https://uploads.archival.dev/343d39d42160d9a423b688fb4bdaa33d0356b513d5adc776ce67e84322e5a1d7/a4d576e8d612c37483929c3ebba8c8a5f4340941df163b2f9be878c78317bae3/making-a-demogorgon-preview.jpg"
+sha = "a4d576e8d612c37483929c3ebba8c8a5f4340941df163b2f9be878c78317bae3"
+filename = "making-a-demogorgon-preview.jpg"
+mime = "image/jpeg"
+width = 1200.0
+height = 1600.0
+source = "https://uploads.archival.dev/adfa5a14417b5e841bd68aef8d35c89d5be163ea46234f0a92301a24f450c1c0/a4d576e8d612c37483929c3ebba8c8a5f4340941df163b2f9be878c78317bae3/full-body-2.jpg"
+
+[link.favicon]
+url = "https://uploads.archival.dev/343d39d42160d9a423b688fb4bdaa33d0356b513d5adc776ce67e84322e5a1d7/f1a1edc01a948afbdac1feb1cb5d1b60e95647a9b8c15bd04e28cbb5ace36ed4/jesseditson-com-icon.png"
+sha = "f1a1edc01a948afbdac1feb1cb5d1b60e95647a9b8c15bd04e28cbb5ace36ed4"
+filename = "jesseditson-com-icon.png"
+mime = "image/png"
+source = "https://jesseditson.com/icon.png"

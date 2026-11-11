@@ -1,0 +1,19 @@
+order = 17
+created_at = 2022-06-16T12:00:00.0
+
+[link]
+url = "https://jesseditson.com/article/dont-be-a-10x-er"
+title = "Don't be a 10xer!"
+description = """In software, engineers are sometimes referred to as "10xers" - implying that they're capable of producing 10x the productivity of a comparable person. When I was getting started in the industry, this was a bit of a goal…"""
+site_name = "Jesse Ditson"
+domain = "jesseditson.com"
+type = "article"
+theme_color = "#ffffff"
+fetched_at = "2026-10-04T23:40:00Z"
+
+[link.favicon]
+url = "https://uploads.archival.dev/343d39d42160d9a423b688fb4bdaa33d0356b513d5adc776ce67e84322e5a1d7/f1a1edc01a948afbdac1feb1cb5d1b60e95647a9b8c15bd04e28cbb5ace36ed4/jesseditson-com-icon.png"
+sha = "f1a1edc01a948afbdac1feb1cb5d1b60e95647a9b8c15bd04e28cbb5ace36ed4"
+filename = "jesseditson-com-icon.png"
+mime = "image/png"
+source = "https://jesseditson.com/icon.png"

@@ -1,0 +1,22 @@
+<article class="card card--contact is-open" data-path="contact" data-title="Contact" data-paper="contact">
+  <div class="card-paper">
+    <header class="card-head">
+      {%- if site.author != blank %}<span>{{ site.author }}</span>{% endif %}
+    </header>
+    <div class="card-body">
+      <form class="contact-form" action="/carriers/contact" method="post" data-contact-form>
+        <h2 class="contact-heading">Write to me</h2>
+        <div class="contact-row">
+          <label>Name <input name="name" autocomplete="name" maxlength="200"></label>
+          <label>Email <input name="email" type="email" autocomplete="email" maxlength="320" required></label>
+        </div>
+        <label>Message <textarea name="message" rows="5" maxlength="5000" required></textarea></label>
+        <label class="contact-trap" aria-hidden="true">Leave this empty <input name="website" tabindex="-1" autocomplete="off"></label>
+        <div class="contact-actions">
+          <button type="submit">Send</button>
+          <p class="contact-status" role="status" aria-live="polite" data-contact-status></p>
+        </div>
+      </form>
+    </div>
+  </div>
+</article>

@@ -1,0 +1,24 @@
+{%- assign items = posts | where: "created_at" | sort: "created_at" | reverse -%}
+# {{ site.name }}
+
+{% if site.description != blank %}> {{ site.description }}
+{% endif %}
+{% if site.author != blank %}Written by {{ site.author }}. {% endif %}One reverse-chronological feed of notes: short text, optionally with photos, a video or an audio clip, or a shared link (a preview of another page).
+
+## Pages
+
+- [Home]({{ site_url }}/): the whole feed, newest first
+- [RSS feed]({{ site_url }}/feed.xml): the 50 most recent entries
+- [Sitemap]({{ site_url }}/sitemap.xml): every entry's permalink
+
+## Recent entries
+{% for item in items limit: 100 %}
+{%- assign shared_url = "" -%}{%- if item.link -%}{%- if item.link.url -%}{%- assign shared_url = item.link.url -%}{%- endif -%}{%- endif -%}
+{%- if shared_url != blank -%}
+{%- assign entry_title = "" -%}{%- assign entry_url = "" -%}
+{%- if item.link -%}{%- if item.link.title -%}{%- assign entry_title = item.link.title -%}{%- endif -%}{%- if item.link.url -%}{%- assign entry_url = item.link.url -%}{%- endif -%}{%- endif -%}
+- [{{ entry_title | default: entry_url }}]({{ site_url }}/{{ item.path }}.html): link shared {{ item.created_at | date: "%Y-%m-%d" }}{% if entry_url != blank %}, pointing to {{ entry_url }}{% endif %}
+{% else -%}
+- [{% include 'post-title' %}]({{ site_url }}/{{ item.path }}.html): note posted {{ item.created_at | date: "%Y-%m-%d" }}
+{% endif -%}
+{% endfor %}

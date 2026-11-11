@@ -1,0 +1,19 @@
+created_at = 2026-10-15T01:32:31.510955
+content = """
+Best email I’ve received today!
+
+Feels great to have our business site on Archival. Already our reservation system has been dramatically more reliable, but it’s also just dope to open my phone and ask for changes to our system instead of fitting it in when I’m in front of a bigger screen.
+
+Hope to see a lot more of these emails soon!"""
+
+[[media]]
+alt = "Squarespace “your subscription has expired” email"
+
+[media.file]
+type = "image"
+
+[media.file.value]
+display_type = "image"
+filename = "6771511588394583540.jpeg"
+sha = "197dba4e6c7218d40f44c496d87962ef60d6fae4b4e1fc2a1e151522401549a6"
+mime = "image/jpeg"

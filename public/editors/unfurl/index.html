@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Link preview</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="archival-editor:resource" content="unfurl.css" />
+    <meta name="archival-editor:resource" content="unfurl.js" />
+    <meta name="archival-editor:resource" content="config.js" />
+    <meta name="archival-editor:display" content="inline" />
+    <meta name="archival-editor:aspect" content="4:3" />
+    <link rel="stylesheet" href="unfurl.css" />
+  </head>
+  <body>
+    <div id="editor" class="inline">
+      <form id="lookup" class="lookup" novalidate>
+        <label class="label" for="url">Link</label>
+        <div class="row">
+          <input id="url" type="url" inputmode="url" placeholder="Paste a link…" autocomplete="off" spellcheck="false" />
+          <button id="fetch" type="submit">Fetch</button>
+        </div>
+        <p id="status" class="status" role="status" aria-live="polite"></p>
+      </form>
+
+      <article id="preview" class="card" hidden>
+        <header class="card-head">
+          <img id="favicon" class="favicon" alt="" hidden />
+          <span id="source" class="source"></span>
+          <button id="refresh" class="quiet" type="button">Refetch</button>
+          <button id="clear" class="quiet" type="button">Clear</button>
+        </header>
+        <div class="card-body">
+          <div class="fields">
+            <label>Title <input id="title" type="text" /></label>
+            <label>Description <textarea id="description" rows="3"></textarea></label>
+            <label>Source name <input id="site_name" type="text" /></label>
+          </div>
+          <figure id="image-wrap" class="photo" hidden>
+            <img id="image" alt="" />
+            <button id="drop-image" class="quiet" type="button">Remove image</button>
+          </figure>
+        </div>
+      </article>
+
+      <div id="list" class="list" hidden>
+        <img id="list-favicon" class="favicon" alt="" hidden />
+        <span id="list-title" class="list-title"></span>
+        <span id="list-domain" class="list-domain"></span>
+      </div>
+    </div>
+    <script type="module" src="unfurl.js"></script>
+  </body>
+</html>
