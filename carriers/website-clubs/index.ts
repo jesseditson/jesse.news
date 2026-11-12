@@ -1,7 +1,7 @@
 import type { Carrier, CarrierScheduled, CarrierSite, SiteObjects } from "@archival/carrier";
 
 const FETCH_TIMEOUT_MS = 10_000;
-const MAX_FEED_BYTES = 2_000_000;
+const MAX_FEED_BYTES = 10_000_000;
 // A request uses a stored copy younger than this; the schedule refreshes hourly.
 const MAX_AGE_MS = 6 * 60 * 60 * 1000;
 // Past events are kept this long, so a calendar still shows last week's meetups.
@@ -161,7 +161,7 @@ async function loadFeeds(site: CarrierSite, feeds: Feed[], maxAgeMs: number, now
         return { feed, body: copy.body, fetchedAt: copy.fetchedAt, error: null };
       }
       try {
-        const body = await fetchFeed(feed, userAgent);
+        const body = trim(feed, await fetchFeed(feed, userAgent), now);
         await store(site, feed.url, body, now);
         return { feed, body, fetchedAt: now, error: null };
       } catch (error) {
@@ -318,13 +318,10 @@ function toEvent(feed: Feed, lines: string[]): CalendarEvent | null {
     start.ms + (start.allDay ? 86_400_000 : 0);
 
   const text = (name: string) => unescapeText(props.get(name)?.value ?? "").trim();
-  let body = lines;
-  if (!props.has("DTSTAMP")) body = [body[0], `DTSTAMP:${stamp(Date.now())}`, ...body.slice(1)];
-  body = [...body.slice(0, -1), `X-WEBSITE-CLUBS-SOURCE:${escapeText(feed.name)}`, body[body.length - 1]];
 
   return {
     feed,
-    lines: body,
+    lines,
     uid,
     summary: text("SUMMARY"),
     url: props.get("URL")?.value.trim() ?? "",
@@ -334,6 +331,26 @@ function toEvent(feed: Feed, lines: string[]): CalendarEvent | null {
     end,
     allDay: start.allDay,
   };
+}
+
+function usedZones(events: CalendarEvent[], timezones: Map<string, string[]>): Map<string, string[]> {
+  const used = new Set(events.flatMap((e) => e.lines.map(parseProperty).map((p) => p.params.TZID).filter(Boolean)));
+  return new Map([...timezones].filter(([tzid]) => used.has(tzid)));
+}
+
+// Stored copies keep only events the merged calendar can still show: a feed with years
+// of history doesn't fit in one row.
+function trim(feed: Feed, body: string, now: number): string {
+  const { events, timezones } = parseCalendar(feed, body);
+  const kept = events.filter((event) => event.end >= now - KEEP_PAST_MS);
+  const lines = [
+    "BEGIN:VCALENDAR",
+    "VERSION:2.0",
+    ...[...usedZones(kept, timezones).values()].flat(),
+    ...kept.flatMap((event) => event.lines),
+    "END:VCALENDAR",
+  ];
+  return lines.join("\r\n") + "\r\n";
 }
 
 // ---------------------------------------------------------------- merging
@@ -385,10 +402,7 @@ function merge(loaded: Loaded[], now: number): { events: CalendarEvent[]; timezo
     }
   }
   events.sort((a, b) => a.start - b.start || a.uid.localeCompare(b.uid));
-  // Only the zones an event still uses.
-  const used = new Set(events.flatMap((e) => e.lines.map(parseProperty).map((p) => p.params.TZID).filter(Boolean)));
-  for (const tzid of timezones.keys()) if (!used.has(tzid)) timezones.delete(tzid);
-  return { events, timezones };
+  return { events, timezones: usedZones(events, timezones) };
 }
 
 // ---------------------------------------------------------------- output
@@ -421,7 +435,15 @@ function fold(line: string): string {
   return out.join("\r\n ");
 }
 
+function published(event: CalendarEvent, now: number): string[] {
+  const [begin, ...rest] = event.lines;
+  const end = rest.pop() as string;
+  const dtstamp = rest.some((line) => parseProperty(line).name === "DTSTAMP") ? [] : [`DTSTAMP:${stamp(now)}`];
+  return [begin, ...dtstamp, ...rest, `X-WEBSITE-CLUBS-SOURCE:${escapeText(event.feed.name)}`, end];
+}
+
 function render(calendar: Calendar, events: CalendarEvent[], timezones: Map<string, string[]>, selfURL: string): string {
+  const now = Date.now();
   const name = escapeText(calendar.name);
   const description = escapeText(calendar.description);
   const lines = [
@@ -436,7 +458,7 @@ function render(calendar: Calendar, events: CalendarEvent[], timezones: Map<stri
     "REFRESH-INTERVAL;VALUE=DURATION:PT6H",
     "X-PUBLISHED-TTL:PT6H",
     ...[...timezones.values()].flat(),
-    ...events.flatMap((event) => event.lines),
+    ...events.flatMap((event) => published(event, now)),
     "END:VCALENDAR",
   ];
   return lines.map(fold).join("\r\n") + "\r\n";
