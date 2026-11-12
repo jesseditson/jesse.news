@@ -25,6 +25,14 @@ url = "string"
 [site.webmention_blocklist]
 domain = "string"
 
+[website_clubs]
+name = "string"
+description = "string"
+
+[website_clubs.feed]
+name = "string"
+url = "string"
+
 [post]
 created_at = "posted"
 content = "markdown"
