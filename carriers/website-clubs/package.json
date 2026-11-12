@@ -1,0 +1,9 @@
+{
+  "private": true,
+  "type": "module",
+  "archival": {
+    "carrier": 2,
+    "access": "public",
+    "schedule": "17 * * * *"
+  }
+}
