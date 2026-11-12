@@ -61,6 +61,22 @@ export interface SiteWebmentionBlocklistObject {
   domain: string | null;
 }
 
+export interface WebsiteClubsObject {
+  /** `<object name>/<file name>` this object was read from. */
+  path: string;
+  /** The object's `order`, or null when it is unordered. */
+  order: number | null;
+  name: string | null;
+  description: string | null;
+  feed: WebsiteClubsFeedObject[];
+}
+
+// Child objects are read from their parent's file, so they have no path/order.
+export interface WebsiteClubsFeedObject {
+  name: string | null;
+  url: string | null;
+}
+
 export interface PostObject {
   /** `<object name>/<file name>` this object was read from. */
   path: string;
@@ -82,6 +98,7 @@ export interface PostMediaObject {
 /** Every object in the site, keyed by name. */
 export interface ArchivalObjects {
   site: SiteObject;
+  website_clubs: WebsiteClubsObject;
   post: PostObject[];
 }
 

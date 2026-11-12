@@ -1,23 +1,4 @@
-import type { Carrier, CarrierScheduled, CarrierSite } from "@archival/carrier";
-
-// Feeds merged into the calendar, in priority order: when two feeds list the same
-// meetup, the copy from the feed listed first is kept.
-const FEEDS: Feed[] = [
-  {
-    id: "indieweb",
-    name: "events.indieweb.org",
-    url: "https://events.indieweb.org/ics/events",
-  },
-  {
-    id: "iffybooks-hwc",
-    name: "Iffy Books Homebrew Website Club (Philadelphia)",
-    url: "https://iffybooks.net/events/summary/?related_series=18363&ical=1",
-  },
-];
-
-const CALENDAR_NAME = "Website Clubs";
-const CALENDAR_DESCRIPTION =
-  "Homebrew Website Clubs, IndieWeb meetups and other gatherings for people who build their own websites. Merged from events.indieweb.org and organizers' own calendars by jesse.news.";
+import type { Carrier, CarrierScheduled, CarrierSite, SiteObjects } from "@archival/carrier";
 
 const FETCH_TIMEOUT_MS = 10_000;
 const MAX_FEED_BYTES = 2_000_000;
@@ -29,9 +10,14 @@ const KEEP_PAST_MS = 30 * 24 * 60 * 60 * 1000;
 const DEDUPE_WINDOW_MS = 15 * 60 * 1000;
 
 interface Feed {
-  id: string;
   name: string;
   url: string;
+}
+
+interface Calendar {
+  name: string;
+  description: string;
+  feeds: Feed[];
 }
 
 interface Loaded {
@@ -58,6 +44,25 @@ interface CalendarEvent {
   start: number;
   end: number;
   allDay: boolean;
+}
+
+// The feeds keep the order the editor lists them in: when two feeds list the same
+// meetup, the copy from the feed listed first is kept.
+function calendarFrom(objects: SiteObjects): Calendar {
+  const config = objects.website_clubs;
+  const feeds: Feed[] = [];
+  for (const row of config?.feed ?? []) {
+    const url = row.url?.trim() ?? "";
+    let parsed: URL;
+    try {
+      parsed = new URL(url);
+    } catch {
+      continue;
+    }
+    if (!/^https?:$/.test(parsed.protocol) || feeds.some((feed) => feed.url === url)) continue;
+    feeds.push({ name: row.name?.trim() || parsed.hostname, url });
+  }
+  return { name: config?.name?.trim() ?? "", description: config?.description?.trim() ?? "", feeds };
 }
 
 // ---------------------------------------------------------------- fetching
@@ -93,30 +98,34 @@ async function fetchFeed(feed: Feed, userAgent: string): Promise<string> {
 }
 
 const TABLE = `CREATE TABLE IF NOT EXISTS website_clubs_feeds (
-  id TEXT PRIMARY KEY,
+  url TEXT PRIMARY KEY,
   body TEXT NOT NULL,
   fetched_at INTEGER NOT NULL
 )`;
 
-async function readStored(site: CarrierSite): Promise<Map<string, { body: string; fetchedAt: number }>> {
+const placeholders = (feeds: Feed[]) => feeds.map(() => "?").join(", ");
+
+async function readStored(site: CarrierSite, feeds: Feed[]): Promise<Map<string, { body: string; fetchedAt: number }>> {
   const stored = new Map<string, { body: string; fetchedAt: number }>();
+  if (feeds.length === 0) return stored;
   try {
     await site.sql.exec(TABLE);
-    const rows = await site.sql.exec<{ id: string; body: string; fetched_at: number }>(
-      "SELECT id, body, fetched_at FROM website_clubs_feeds",
+    const rows = await site.sql.exec<{ url: string; body: string; fetched_at: number }>(
+      `SELECT url, body, fetched_at FROM website_clubs_feeds WHERE url IN (${placeholders(feeds)})`,
+      ...feeds.map((feed) => feed.url),
     );
-    for (const row of rows) stored.set(row.id, { body: row.body, fetchedAt: row.fetched_at });
+    for (const row of rows) stored.set(row.url, { body: row.body, fetchedAt: row.fetched_at });
   } catch {
     // No database (preview, `archival run`, or a plan without one): fetch every time.
   }
   return stored;
 }
 
-async function store(site: CarrierSite, id: string, body: string, fetchedAt: number): Promise<void> {
+async function store(site: CarrierSite, url: string, body: string, fetchedAt: number): Promise<void> {
   try {
     await site.sql.exec(
-      "INSERT INTO website_clubs_feeds (id, body, fetched_at) VALUES (?, ?, ?) ON CONFLICT(id) DO UPDATE SET body = excluded.body, fetched_at = excluded.fetched_at",
-      id,
+      "INSERT INTO website_clubs_feeds (url, body, fetched_at) VALUES (?, ?, ?) ON CONFLICT(url) DO UPDATE SET body = excluded.body, fetched_at = excluded.fetched_at",
+      url,
       body,
       fetchedAt,
     );
@@ -125,24 +134,39 @@ async function store(site: CarrierSite, id: string, body: string, fetchedAt: num
   }
 }
 
+async function prune(site: CarrierSite, feeds: Feed[]): Promise<void> {
+  try {
+    await site.sql.exec(TABLE);
+    if (feeds.length === 0) await site.sql.exec("DELETE FROM website_clubs_feeds");
+    else {
+      await site.sql.exec(
+        `DELETE FROM website_clubs_feeds WHERE url NOT IN (${placeholders(feeds)})`,
+        ...feeds.map((feed) => feed.url),
+      );
+    }
+  } catch {
+    // No database: nothing stored to prune.
+  }
+}
+
 // A feed that can't be fetched falls back to its last good copy, so one organizer's
 // site being down doesn't drop their events from everyone's calendar.
-async function loadFeeds(site: CarrierSite, maxAgeMs: number, now: number): Promise<Loaded[]> {
-  const stored = await readStored(site);
+async function loadFeeds(site: CarrierSite, feeds: Feed[], maxAgeMs: number, now: number): Promise<Loaded[]> {
+  const stored = await readStored(site, feeds);
   const userAgent = `WebsiteClubs/1.0 (+${site.url || "https://jesse.news"}/carriers/website-clubs)`;
   return Promise.all(
-    FEEDS.map(async (feed): Promise<Loaded> => {
-      const copy = stored.get(feed.id);
+    feeds.map(async (feed): Promise<Loaded> => {
+      const copy = stored.get(feed.url);
       if (copy && now - copy.fetchedAt < maxAgeMs) {
         return { feed, body: copy.body, fetchedAt: copy.fetchedAt, error: null };
       }
       try {
         const body = await fetchFeed(feed, userAgent);
-        await store(site, feed.id, body, now);
+        await store(site, feed.url, body, now);
         return { feed, body, fetchedAt: now, error: null };
       } catch (error) {
         const message = error instanceof Error ? error.message : "failed";
-        console.error(`website-clubs: ${feed.id} ${message}`);
+        console.error(`website-clubs: ${feed.url} ${message}`);
         return { feed, body: copy?.body ?? null, fetchedAt: copy?.fetchedAt ?? null, error: message };
       }
     }),
@@ -397,17 +421,17 @@ function fold(line: string): string {
   return out.join("\r\n ");
 }
 
-function render(events: CalendarEvent[], timezones: Map<string, string[]>, selfURL: string): string {
+function render(calendar: Calendar, events: CalendarEvent[], timezones: Map<string, string[]>, selfURL: string): string {
+  const name = escapeText(calendar.name);
+  const description = escapeText(calendar.description);
   const lines = [
     "BEGIN:VCALENDAR",
     "VERSION:2.0",
     "PRODID:-//jesse.news//Website Clubs//EN",
     "CALSCALE:GREGORIAN",
     "METHOD:PUBLISH",
-    `NAME:${escapeText(CALENDAR_NAME)}`,
-    `X-WR-CALNAME:${escapeText(CALENDAR_NAME)}`,
-    `DESCRIPTION:${escapeText(CALENDAR_DESCRIPTION)}`,
-    `X-WR-CALDESC:${escapeText(CALENDAR_DESCRIPTION)}`,
+    ...(name ? [`NAME:${name}`, `X-WR-CALNAME:${name}`] : []),
+    ...(description ? [`DESCRIPTION:${description}`, `X-WR-CALDESC:${description}`] : []),
     `URL:${selfURL}`,
     "REFRESH-INTERVAL;VALUE=DURATION:PT6H",
     "X-PUBLISHED-TTL:PT6H",
@@ -418,13 +442,13 @@ function render(events: CalendarEvent[], timezones: Map<string, string[]>, selfU
   return lines.map(fold).join("\r\n") + "\r\n";
 }
 
-function summary(loaded: Loaded[], events: CalendarEvent[]) {
+function summary(calendar: Calendar, loaded: Loaded[], events: CalendarEvent[]) {
   return {
-    name: CALENDAR_NAME,
+    name: calendar.name,
     feeds: loaded.map(({ feed, fetchedAt, error }) => ({
       name: feed.name,
       url: feed.url,
-      events: events.filter((event) => event.feed.id === feed.id).length,
+      events: events.filter((event) => event.feed === feed).length,
       fetched_at: fetchedAt ? new Date(fetchedAt).toISOString() : null,
       error,
     })),
@@ -447,24 +471,25 @@ const HEADERS = {
   "cache-control": "public, max-age=900",
 };
 
-const carrier: Carrier = async (params, _body, _objects, site) => {
+const carrier: Carrier = async (params, _body, objects, site) => {
   const now = Date.now();
-  const loaded = await loadFeeds(site, MAX_AGE_MS, now);
+  const calendar = calendarFrom(objects);
+  const loaded = await loadFeeds(site, calendar.feeds, MAX_AGE_MS, now);
   const { events, timezones } = merge(loaded, now);
 
   if (params.get("format") === "json") {
-    return new Response(JSON.stringify(summary(loaded, events)), {
+    return new Response(JSON.stringify(summary(calendar, loaded, events)), {
       headers: { ...HEADERS, "content-type": "application/json; charset=utf-8" },
     });
   }
-  if (!loaded.some((entry) => entry.body)) {
+  if (loaded.length > 0 && !loaded.some((entry) => entry.body)) {
     return new Response("No feed could be read. Try again in a bit.", {
       status: 503,
       headers: { ...HEADERS, "cache-control": "no-store", "content-type": "text/plain; charset=utf-8" },
     });
   }
   const selfURL = `${site.url || "https://jesse.news"}/carriers/website-clubs`;
-  return new Response(render(events, timezones, selfURL), {
+  return new Response(render(calendar, events, timezones, selfURL), {
     headers: {
       ...HEADERS,
       "content-type": "text/calendar; charset=utf-8",
@@ -476,9 +501,10 @@ const carrier: Carrier = async (params, _body, _objects, site) => {
 export default carrier;
 
 // Hourly (the schedule in package.json): refresh every feed's stored copy.
-export const scheduled: CarrierScheduled = async (_objects, site) => {
-  const loaded = await loadFeeds(site, 0, Date.now());
-  const failed = loaded.filter((entry) => entry.error);
-  if (failed.length === loaded.length) throw new Error("website-clubs: every feed failed");
+export const scheduled: CarrierScheduled = async (objects, site) => {
+  const { feeds } = calendarFrom(objects);
+  await prune(site, feeds);
+  const loaded = await loadFeeds(site, feeds, 0, Date.now());
+  if (loaded.length > 0 && loaded.every((entry) => entry.error)) throw new Error("website-clubs: every feed failed");
 };
 

@@ -1,0 +1,10 @@
+name = "Website Clubs"
+description = "Homebrew Website Clubs, IndieWeb meetups and other gatherings for people who build their own websites. Merged from events.indieweb.org and organizers' own calendars by jesse.news."
+
+[[feed]]
+name = "events.indieweb.org"
+url = "https://events.indieweb.org/ics/events"
+
+[[feed]]
+name = "Iffy Books Homebrew Website Club (Philadelphia)"
+url = "https://iffybooks.net/events/summary/?related_series=18363&ical=1"

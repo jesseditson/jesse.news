@@ -30,6 +30,11 @@ secondary = "url"
 name = "default"
 primary = "domain"
 
+[[website_clubs.children.feed.views]]
+name = "default"
+primary = "name"
+secondary = "url"
+
 [[shortcuts]]
 name = "New Post"
 path = "post"
