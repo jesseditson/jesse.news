@@ -382,6 +382,10 @@ function merge(loaded: Loaded[], now: number): { events: CalendarEvent[]; timezo
   for (const { feed, body } of loaded) {
     if (!body) continue;
     const parsed = parseCalendar(feed, body);
+    // URL and title only match against earlier feeds: within one feed, a series can
+    // share a single page and a title.
+    const feedURLs: string[] = [];
+    const feedSlots: [string, number][] = [];
     for (const event of parsed.events) {
       if (event.end < now - KEEP_PAST_MS) continue;
       const url = event.url ? normalizeURL(event.url) : "";
@@ -393,10 +397,12 @@ function merge(loaded: Loaded[], now: number): { events: CalendarEvent[]; timezo
         starts.some((start) => Math.abs(start - event.start) <= DEDUPE_WINDOW_MS);
       if (duplicate) continue;
       uids.add(event.uid);
-      if (url) urls.add(url);
-      if (title) slots.set(title, [...starts, event.start]);
+      if (url) feedURLs.push(url);
+      if (title) feedSlots.push([title, event.start]);
       events.push(event);
     }
+    for (const url of feedURLs) urls.add(url);
+    for (const [title, start] of feedSlots) slots.set(title, [...(slots.get(title) ?? []), start]);
     for (const [tzid, block] of parsed.timezones) {
       if (!timezones.has(tzid)) timezones.set(tzid, block);
     }

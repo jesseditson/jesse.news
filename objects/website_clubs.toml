@@ -2,6 +2,10 @@ name = "Website Clubs"
 description = "Homebrew Website Clubs, IndieWeb meetups and other gatherings for people who build their own websites. Merged from events.indieweb.org and organizers' own calendars by jesse.news."
 
 [[feed]]
+name = "Archival office hours"
+url = "https://archival.dev/carriers/office-hours?action=ics"
+
+[[feed]]
 name = "events.indieweb.org"
 url = "https://events.indieweb.org/ics/events"
 
