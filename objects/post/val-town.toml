@@ -1,0 +1,23 @@
+order = 43
+created_at = 2026-11-13T18:56:00.101
+content = """
+I posted this week on the disappointing closure of val.town, one of the more promising and weird startups I've seen in a while. Full article behind the link.
+"""
+media = []
+
+[link]
+url = "https://jesseditson.com/article/its-hard-to-make-something-good"
+title = "It’s hard to make something good"
+description = "Thoughts on val.town’s brief and glorious tenure"
+site_name = "Jesse Ditson"
+domain = "jesseditson.com"
+type = "article"
+theme_color = "#ffffff"
+fetched_at = "2026-11-13T18:56:02.834Z"
+
+[link.favicon]
+url = "/_uploads/343d39d42160d9a423b688fb4bdaa33d0356b513d5adc776ce67e84322e5a1d7/99e43af913b00df608e2821d4896db235803292525f6eacf6c54489bbf56e3d8/jesseditson-com-icon.png"
+sha = "99e43af913b00df608e2821d4896db235803292525f6eacf6c54489bbf56e3d8"
+filename = "jesseditson-com-icon.png"
+mime = "image/png"
+source = "https://jesseditson.com/icon.png"
