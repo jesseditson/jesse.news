@@ -1,0 +1,20 @@
+order = 53
+created_at = 2026-11-17T19:47:57.463
+content = """
+# Test Post
+
+this is just a post for the video
+"""
+
+[[media]]
+alt = "image"
+
+[media.file]
+type = "image"
+
+[media.file.value]
+display_type = "image"
+filename = "logo-3d.png"
+sha = "46bdc73068460dc1cb03190b68c2c1fcb55c728546a7f8cc2e69e4b5cc5ef30d"
+mime = "image/png"
+name = "logo-3d.png"
