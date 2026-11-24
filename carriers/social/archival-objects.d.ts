@@ -85,7 +85,6 @@ export interface PostObject {
   created_at: string | null;
   content: string | null;
   pinned: boolean | null;
-  link: ArchivalMeta | null;
   media: PostMediaObject[];
 }
 

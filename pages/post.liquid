@@ -1,7 +1,5 @@
 {%- assign item = post -%}
-{%- assign l = post.link -%}
-{%- assign shared_url = "" -%}
-{%- if l -%}{%- if l.url -%}{%- assign shared_url = l.url -%}{%- endif -%}{%- endif -%}
+{%- include 'shared-link' -%}
 {%- assign page_description = "" -%}
 {%- assign opens_with_h1 = false -%}
 {%- if post.content -%}
@@ -9,17 +7,16 @@
   {%- if content_tag == "<h1" -%}{%- assign opens_with_h1 = true -%}{%- endif -%}
   {%- capture newline %}
 {% endcapture -%}
-  {%- assign page_description = post.content | replace: "</", " </" | strip_html | replace: newline, " " | replace: "  ", " " | strip | truncatewords: 40 -%}
+  {%- assign page_description = comment_html | replace: "</", " </" | strip_html | replace: newline, " " | replace: "  ", " " | strip | truncatewords: 40 -%}
 {%- endif -%}
 {%- assign preview_image = "" -%}
 {%- for m in post.media -%}
   {%- if m.file -%}{%- if m.file.type == "image" and preview_image == blank -%}{%- assign preview_image = m.file.value.url -%}{%- endif -%}{%- endif -%}
 {%- endfor -%}
 {%- if shared_url != blank -%}
-  {%- assign post_title = shared_url -%}
-  {%- if l.title -%}{%- assign post_title = l.title -%}{%- endif -%}
-  {%- if page_description == blank and l.description -%}{%- assign page_description = l.description -%}{%- endif -%}
-  {%- if preview_image == blank and post.media.size == 0 -%}{%- if l.image -%}{%- if l.image.url -%}{%- assign preview_image = l.image.url -%}{%- endif -%}{%- endif -%}{%- endif -%}
+  {%- assign post_title = link_title | strip_html -%}
+  {%- if page_description == blank -%}{%- assign page_description = link_desc -%}{%- endif -%}
+  {%- if preview_image == blank and post.media.size == 0 -%}{%- assign preview_image = link_image -%}{%- endif -%}
 {%- else -%}
   {%- capture post_title -%}{% include 'post-title' %}{%- endcapture -%}
 {%- endif -%}

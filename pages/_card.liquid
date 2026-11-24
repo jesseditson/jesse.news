@@ -5,7 +5,7 @@
 {%- assign datestamp = posted_at | date: "'%y %-m %-d" -%}
 {%- assign pretty_date = posted_at | date: "%b %-d, %Y" -%}
 {%- assign iso_date = posted_at | date: "%Y-%m-%dT%H:%M:%S%z" -%}
-{%- assign shared_url = "" -%}{%- if item.link -%}{%- if item.link.url -%}{%- assign shared_url = item.link.url -%}{%- endif -%}{%- endif -%}
+{%- include 'shared-link' -%}
 {%- if shared_url != blank -%}
 {% include 'link-card' %}
 {%- else -%}

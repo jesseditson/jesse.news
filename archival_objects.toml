@@ -38,7 +38,6 @@ created_at = "posted"
 content = "markdown"
 pinned = "boolean"
 template = "post"
-link = "unfurl"
 
 [post.media]
 alt = "string"

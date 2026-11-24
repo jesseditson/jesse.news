@@ -1,0 +1,44 @@
+{%- comment -%}
+A link preview in a post's body is a blockquote: an optional linked image, the
+title as a bold link, an optional description, and the site's name in italics.
+Reads the first one out of `item.content` as shared_url, link_title, link_desc,
+link_source, link_image and link_image_alt, and leaves the rest of the body in
+comment_html. Without one, shared_url is blank and comment_html is the body.
+{%- endcomment -%}
+{%- assign shared_url = "" -%}
+{%- assign link_title = "" -%}
+{%- assign link_desc = "" -%}
+{%- assign link_source = "" -%}
+{%- assign link_image = "" -%}
+{%- assign link_image_alt = "" -%}
+{%- assign comment_html = "" -%}
+{%- if item.content -%}
+  {%- assign comment_html = item.content -%}
+  {%- assign title_open = '<p><strong><a href="' -%}
+  {%- assign quotes = item.content | split: "<blockquote>" -%}
+  {%- for quote in quotes offset: 1 -%}
+    {%- assign quote_body = quote | split: "</blockquote>" | first -%}
+    {%- if shared_url == blank and quote_body contains title_open -%}
+      {%- assign quote_parts = quote_body | split: title_open -%}
+      {%- assign after_open = quote_parts | last -%}
+      {%- assign shared_url = after_open | split: '"' | first -%}
+      {%- assign link_title = after_open | split: "</a></strong>" | first | split: '">' | last -%}
+      {%- assign after_title = after_open | split: "</a></strong></p>" | last -%}
+      {%- assign desc_html = after_title -%}
+      {%- if after_title contains "<p><em>" -%}
+        {%- assign link_source = after_title | split: "<p><em>" | last | split: "</em>" | first -%}
+        {%- assign desc_html = after_title | split: "<p><em>" | first -%}
+      {%- endif -%}
+      {%- assign link_desc = desc_html | strip_html | strip -%}
+      {%- assign before_title = quote_parts | first -%}
+      {%- if before_title contains '<img src="' -%}
+        {%- assign link_image = before_title | split: '<img src="' | last | split: '"' | first -%}
+        {%- assign link_image_alt = before_title | split: 'alt="' | last | split: '"' | first -%}
+      {%- endif -%}
+      {%- capture whole_quote -%}<blockquote>{{ quote_body }}</blockquote>{%- endcapture -%}
+      {%- assign comment_html = item.content | replace: whole_quote, "" -%}
+    {%- endif -%}
+  {%- endfor -%}
+{%- endif -%}
+{%- if link_title == blank -%}{%- assign link_title = shared_url -%}{%- endif -%}
+{%- if link_source == blank and shared_url != blank -%}{%- assign link_source = shared_url | split: "//" | last | split: "/" | first | remove_first: "www." -%}{%- endif -%}

@@ -414,8 +414,8 @@ needed.
 
 This site sets `scripts_dir = "src"` and `scripts_build_dir = ""`, so
 `src/scripts/main.ts` serves as `/scripts/main.js` and
-`src/editors/unfurl/unfurl.ts` as `/editors/unfurl/unfurl.js`, next to the
-custom editor's `public/editors/unfurl/index.html` — a custom editor can only
+`src/editors/posted/posted.ts` as `/editors/posted/posted.js`, next to the
+custom editor's `public/editors/posted/index.html` — a custom editor can only
 load resources relative to its own document. A compiled script and a file in
 `public/` building to the same path fails the build.
 

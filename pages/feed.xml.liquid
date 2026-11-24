@@ -10,16 +10,11 @@
     <lastBuildDate>{{ "now" | date: "%a, %d %b %Y %H:%M:%S %z" }}</lastBuildDate>
     {%- for item in items limit: 50 %}
     <item>
-      {%- assign shared_url = "" -%}{%- if item.link -%}{%- if item.link.url -%}{%- assign shared_url = item.link.url -%}{%- endif -%}{%- endif -%}
+      {%- include 'shared-link' -%}
       {%- if shared_url != blank %}
-      {%- assign l = item.link -%}
-      {%- assign feed_title = "" -%}
-      {%- assign feed_url = "" -%}
-      {%- if l -%}{%- if l.title -%}{%- assign feed_title = l.title -%}{%- endif -%}{%- if l.url -%}{%- assign feed_url = l.url -%}{%- endif -%}{%- endif -%}
-      {%- if feed_title == blank -%}{%- assign feed_title = feed_url -%}{%- endif %}
-      <title>{{ feed_title | escape }}</title>
-      <link>{% if feed_url != blank %}{{ feed_url | escape }}{% else %}{{ site_url }}/{{ item.path }}.html{% endif %}</link>
-      <description><![CDATA[{% if item.content %}{{ item.content | replace: "]]>", "]]]]><![CDATA[>" }}{% endif %}{% for m in item.media %}{% if m.file %}{% if m.file.type == "image" %}<p><img src="{{ m.file.value.url }}" alt="{% if m.alt %}{{ m.alt | escape }}{% endif %}"></p>{% elsif m.file.type == "video" %}<p><video src="{{ m.file.value.url }}" controls></video></p>{% elsif m.file.type == "audio" %}<p><audio src="{{ m.file.value.url }}" controls></audio></p>{% endif %}{% endif %}{% endfor %}{% if l %}{% if l.description %}<blockquote>{{ l.description | escape }}</blockquote>{% endif %}{% endif %}{% if feed_url != blank %}<p><a href="{{ feed_url | escape }}">{{ feed_url | escape }}</a></p>{% endif %}]]></description>
+      <title>{{ link_title | strip_html }}</title>
+      <link>{{ shared_url }}</link>
+      <description><![CDATA[{% if item.content %}{{ item.content | replace: "]]>", "]]]]><![CDATA[>" }}{% endif %}{% for m in item.media %}{% if m.file %}{% if m.file.type == "image" %}<p><img src="{{ m.file.value.url }}" alt="{% if m.alt %}{{ m.alt | escape }}{% endif %}"></p>{% elsif m.file.type == "video" %}<p><video src="{{ m.file.value.url }}" controls></video></p>{% elsif m.file.type == "audio" %}<p><audio src="{{ m.file.value.url }}" controls></audio></p>{% endif %}{% endif %}{% endfor %}]]></description>
       {%- else %}
       <title>{% capture feed_title %}{% include 'post-title' %}{% endcapture %}{{ feed_title | escape }}</title>
       <link>{{ site_url }}/{{ item.path }}.html</link>

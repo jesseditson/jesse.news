@@ -76,7 +76,6 @@ photo = "avatar"
 [webmention.objects.post]
 content = "content"
 published = "created_at"
-bookmark_of = "link.url"
 
 [atproto]
 domain = "jesse.news"

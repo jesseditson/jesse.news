@@ -399,15 +399,6 @@ main {
   color: var(--ink-soft);
 }
 
-.favicon {
-  flex: none;
-  width: 1rem;
-  height: 1rem;
-  margin-bottom: 0.25rem;
-  border-radius: 0.1875rem;
-  object-fit: contain;
-}
-
 .source-name {
   min-width: 0;
   overflow: hidden;
