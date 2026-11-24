@@ -1,0 +1,20 @@
+order = 44
+created_at = 2026-11-24T12:00:00.0
+content = """
+New project: [bowling.jesseditson.com](https://bowling.jesseditson.com), a little shop for 3D printable bowling stuff.
+
+A surprising number of bowlers (at least on my league) have 3D printers, but none of them have CAD experience, or seemingly much interest in it. Seemed like a cool use of the new [archival payments feature](https://archival.dev/update/sell-from-your-site) to give people a small tool to generate custom STLs, and to download or buy the print.
+
+If you're in need of a slick customized ball cup, hit the link and buy one! Also if you don't wanna pay the $2 just let me know in the comments (or email) and I'll send you a discount code to make it free."""
+media = []
+
+[link]
+description = "Customizable STLs for Bowlers"
+domain = "bowling.jesseditson.com"
+fetched_at = "2026-11-24T12:00:00.000Z"
+image = "https://uploads.archival.dev/d21966b5db803c605a86ea58f22c1dc843dde6f96c8322b9576a08b8f84eeff2/cba6517dfb2eaf1f9a5748fd99a595faf2fbab1d013acdfb6c2c94ad8393ecf6/Screenshot%202026-11-23%20at%202.25.52%E2%80%AFPM.png"
+site_name = "3D Printable Bowling Stuff by Jesse"
+theme_color = "#f6efe2"
+title = "3D Printable Bowling Stuff by Jesse"
+type = "website"
+url = "https://bowling.jesseditson.com/"
