@@ -377,8 +377,7 @@ main {
   color: var(--pencil);
 }
 
-.card--post .card-permalink::after,
-.card-link::after {
+.card-permalink::after {
   content: "";
   position: absolute;
   inset: 0;
@@ -386,27 +385,14 @@ main {
   cursor: pointer;
 }
 
-.card--post .card-permalink:focus-visible,
-.card-link:focus-visible {
+.card-permalink:focus-visible {
   outline: none;
 }
 
-.card--post .card-permalink:focus-visible::after,
-.card-link:focus-visible::after {
+.card-permalink:focus-visible::after {
   outline: 0.1875rem solid var(--focus);
   outline-offset: 0.25rem;
   border-radius: var(--card-radius);
-}
-
-.card--link .card-permalink {
-  position: relative;
-  z-index: 2;
-}
-
-.card--link .card-permalink:hover {
-  color: var(--link-ink);
-  text-decoration: underline;
-  text-decoration-thickness: 0.0625rem;
 }
 
 .card-source {
@@ -639,8 +625,32 @@ main {
   text-decoration: none;
 }
 
-.card:hover .card-link {
+.card-link::after {
+  content: "\00a0\2197";
+  color: var(--pencil);
+  font-weight: 500;
+}
+
+.card-link:hover,
+.card-link:hover::after {
   color: var(--link-ink);
+}
+
+.card-link:hover {
+  text-decoration: underline;
+  text-decoration-thickness: 0.0625rem;
+  text-underline-offset: 0.125rem;
+}
+
+/* The title sits above the card-wide permalink so it alone leaves the site. */
+.card:not(.is-open) .link-text {
+  position: relative;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.card:not(.is-open) .card-link {
+  pointer-events: auto;
 }
 
 .link-desc {
@@ -866,8 +876,7 @@ main {
   font-size: 0.8125rem;
 }
 
-.card.is-open.card--post .card-permalink::after,
-.card.is-open .card-link::after {
+.card.is-open .card-permalink::after {
   content: none;
 }
 
@@ -933,9 +942,12 @@ main {
   top: 1.25rem;
 }
 
-.card.is-open.card--link .card-body {
-  flex-direction: column-reverse;
-  justify-content: flex-end;
+.card.is-open.card--link .card-media {
+  order: -2;
+}
+
+.card.is-open.card--link .photo--preview {
+  order: -1;
 }
 
 .card.is-open .photo--preview {
