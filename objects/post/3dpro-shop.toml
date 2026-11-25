@@ -1,0 +1,21 @@
+created_at = 2026-11-25T20:33:00.0
+content = '''
+# 3DPro.shop
+
+I'm a bowler, so I make all kinds of weird accessories for bowling. Over the years, I ended up with 2 things I use every week and that often are commented on by the bowlers around me; a neat branded case for my IT thumbs and accessories, and a ball cup that clips onto my bag, which is cheap to produce and durable so I can make lots of custom ones.
+
+However the process to customize them is tedious and my prototypes are rarely perfect, so any when I give them as gifts, it inevitably ends in a lot of labor for me.
+
+So I rebuilt all my models using [OpenSCAD](https://openscad.org/), which I had done a little open source work on to get running smoothly in WASM/browser contexts, so I had a clear path to web-based CAD. This was a very productive way to parameterize the designs and allow for some nice automatic customization and printing optimizations, and to let me edit models on my iPad while traveling.
+
+I made a bunch of parts this way, but the real promise for me of 3D printing is that you could fully delegate a design's customization to code, while maintaining structural and form decisions and constraints to allow folks with no CAD experience to generate slicer-ready parts that were unique every time.
+
+This week I shipped [payments in archival](https://archival.dev/update/sell-from-your-site), and it seemed like a perfect opportunity to test the archival systems with a commerce site, and to finally fulfill the dream of a web-based model customizer at the same time.
+
+So after work today I glued it all together, and wound up with something pretty slick\!
+
+Check it out, build something, or hit me up for discount codes for the models (free if you mention this post):
+
+https://3dpro.shop/
+'''
+media = []

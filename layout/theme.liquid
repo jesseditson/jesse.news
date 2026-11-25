@@ -23,6 +23,7 @@
     {% endif %}
     <title>{{ page_title | escape }}</title>
     <meta name="description" content="{{ page_description | escape }}">
+    <link rel="canonical" href="{{ site_url }}{% if page == 'post' %}/{{ post.path }}{% else %}/{% endif %}">
     {% if site.author != blank %}<meta name="author" content="{{ site.author | escape }}">{% endif %}
     <meta property="og:title" content="{{ page_title | escape }}">
     <meta property="og:description" content="{{ page_description | escape }}">
@@ -81,6 +82,7 @@
       data-breeze="{% if site.show_breeze != false %}on{% else %}off{% endif %}"
       data-rain="{% if site.show_rain != false %}on{% else %}off{% endif %}"
       data-comments="{% if site.show_comments != false %}on{% else %}off{% endif %}">
+      <noscript><p class="noscript-note">This site uses JavaScript for its scenery. The posts below still read fine without it — <a href="/feed.xml">subscribe via RSS</a> to follow along.</p></noscript>
       {{ page_content }}
     </main>
     <footer class="site-footer">
